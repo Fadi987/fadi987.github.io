@@ -185,6 +185,7 @@ exclude:
   - Gemfile.lock
   - INSTALL.md
   - LICENSE
+  - CLAUDE.md
   - lighthouse_results/
   - package.json
   - package-lock.json
