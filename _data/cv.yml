@@ -45,6 +45,16 @@ cv:
         highlights:
           - "Course 18 (Mathematics) and Course 6-3 (Computer Science)"
 
+    Experience:
+      - company: Citadel
+        location: Chicago, IL
+        position: Quantitative Research Engineer
+        url: https://www.citadel.com/
+        start_date: 2022-02
+        end_date: 2024-09
+        highlights:
+          - Global Quantitative Strategies (GQS)
+
     Interests:
       - name: Generative Modeling
         icon: fa-solid fa-tag
