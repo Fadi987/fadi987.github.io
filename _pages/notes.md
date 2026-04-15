@@ -3,7 +3,7 @@ layout: page
 permalink: /notes/
 title: notes
 description: Working notes on topics I'm learning, with re-derivations and insights.
-nav: true
+nav: false
 nav_order: 1
 ---
 

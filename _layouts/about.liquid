@@ -72,6 +72,19 @@ layout: default
       </div>
     {% endif %}
 
+    <!-- Notes -->
+    {% if page.notes and site.notes.size > 0 %}
+      <h2>notes</h2>
+      {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
+      {% for note in sorted_notes %}
+        <div style="margin-bottom: 0.75rem;">
+          <a href="{{ note.url | relative_url }}">{{ note.title }}</a>
+          <span class="post-meta"> — {{ note.date | date: '%B %d, %Y' }}</span>
+          <br><span class="post-meta">{{ note.description }}</span>
+        </div>
+      {% endfor %}
+    {% endif %}
+
     <!-- Social -->
     {% if page.social %}
       <div class="social">

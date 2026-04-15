@@ -13,6 +13,7 @@ profile:
 selected_papers: false
 all_papers: true
 social: false
+notes: true
 
 announcements:
   enabled: true # includes a list of news items
