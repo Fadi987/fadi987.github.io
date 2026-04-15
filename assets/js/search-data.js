@@ -9,7 +9,14 @@ ninja.data = [{
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "books-the-godfather",
+  },{id: "nav-notes",
+          title: "notes",
+          description: "Working notes on topics I&#39;m learning, with re-derivations and insights.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/notes/";
+          },
+        },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
@@ -17,7 +24,12 @@ ninja.data = [{
             },},{id: "news-excited-to-announce-that-i-will-be-joining-the-machine-learning-department-at-carnegie-mellon-university-as-a-phd-student-starting-fall-2026",
           title: 'Excited to announce that I will be joining the Machine Learning Department at...',
           description: "",
-          section: "News",},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
+          section: "News",},{id: "notes-continuous-normalizing-flows",
+          title: 'Continuous Normalizing Flows',
+          description: "Deriving the Lagrangian and Eulerian views of continuous normalizing flows and the adjoint method for efficient gradient computation.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/continuous-normalizing-flows/";
+            },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
           section: "Teachings",handler: () => {
