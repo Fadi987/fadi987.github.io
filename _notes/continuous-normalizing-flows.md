@@ -21,6 +21,7 @@ Now, since $$x_1$$ is a high-dimensional vector (e.g, image), then the Jacobian 
 In CNF, instead of asking: "How can we transform $$x_0\rightarrow x_1$$ in one step?". We ask "How can I deterministically transform $$x_0$$ continuously in time according to a dynamical system described by an ODE $$\dot{x}_t = f_\theta(x_t, t)$$ where at $$t=1$$ we have $$x_1\sim\rho_1$$ ?".  The beauty behind this formulation is that we have decomposed the complexity of a single jump from $$x_0\rightarrow x_1$$ into a time-varying velocity field that continuously, and gradually takes us there. More beautifully, the math works out so that we actually avoid computing the Jacobian. Let's see how this is the case. 
 
 First, let's think about $$x_t = X(t, x_0)$$ at time $$t$$ and notice that, again, according to the change of measure formula we have
+
 $$
 p_t(x_t) =p_0(x_0)\Big| \frac{\partial x_t}{\partial x_0}\Big|^{-1} \implies \mathrm{log}(p_t(x_t)) = \mathrm{log}(p_0(x_0)) - \mathrm{log}(|J(t)|)
 $$
@@ -41,7 +42,7 @@ $$
 |A| = \sum_j A_{i, j}C_{i, j}\ \ \ \forall i \implies \frac{\partial|A|}{\partial A_{i, j}} = C_{i, j}
 $$
 
-where $$C_{i, j} = \mathrm{Adj}(J)_{j, i}$$ are the matrix cofactors since $$C_{i, j}$$ don't depend on $$A_{i, j}$$. Applying this to $$|J(t)|$$, we conclude
+where $$C_{i, j} = \mathrm{Adj}(J)_{j, i}$$ are the matrix cofactors since $$C_{i, j}$$ don't depend on $$A_{i, j}$$. Applying this to $$\lvert J(t)\rvert$$, we conclude
 
 $$
 \frac{d|J(t)|}{dt} = \sum_{i, j} \frac{\partial |J|}{\partial J_{i, j}}\frac{\partial J_{i, j}(t)}{\partial t} = \sum_{i, j} \mathrm{Adj}(J)_{j, i}\frac{\partial J_{i, j}(t)}{\partial t} = \mathrm{Tr}\Big[\mathrm{Adj}(J) \frac{\partial J(t)}{\partial t}\Big] = |J(t)|\mathrm{Tr}\Big[J^{-1} \frac{\partial J(t)}{\partial t}\Big]
