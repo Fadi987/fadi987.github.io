@@ -40,6 +40,7 @@ Now, let's compute the total derivative of the Jacobian. To that end, note that 
 $$
 |A| = \sum_j A_{i, j}C_{i, j}\ \ \ \forall i \implies \frac{\partial|A|}{\partial A_{i, j}} = C_{i, j}
 $$
+
 where $$C_{i, j} = \mathrm{Adj}(J)_{j, i}$$ are the matrix cofactors since $$C_{i, j}$$ don't depend on $$A_{i, j}$$. Applying this to $$|J(t)|$$, we conclude
 
 $$
@@ -95,6 +96,7 @@ Now,
 $$
 \frac{dp_t(x_t)}{dt} = \partial_t p_t(x_t)  + \frac{\partial p_t(x_t)}{\partial x_t} \dot{x}_t = \partial_t p_t(x_t) + \nabla p_t(x_t)\cdot f_\theta(x_t, t)
 $$
+
 Thus, all terms cancel out and the Transport equation holds as expected!
 
 ### The Formal Equivalence of Transport: Eulerian PDE to Lagrangian ODE
@@ -141,6 +143,7 @@ So far, we have formulated the setup of CNFs. Essentially, up to time-reversal w
 $$
 \dot{x}_t = f_\theta(x(t), t),\  x(0) = x_0
 $$
+
 Now, during training, we have a loss function, call it $$L$$ that's evaluated at $$x_1 = x(1)$$. And we'd like to compute the gradient $$\frac{d L}{d \theta}$$. Let's try to derive this from first principles. 
 
 As a first try, let's try to naively compute this quantity. But, it's important to think how to represent $$L$$ as a function. We're asking: "How does changing the parameters $$\theta$$ change the final loss value $$L$$?" Well, the mechanism through which it happens, is that by changing $$\theta$$, we change the function $$f_\theta$$ which changes the velocity field of the ODE which changes the entire trajectory leading to $$x_1$$. Given this, it's not unreasonable to write
@@ -148,6 +151,7 @@ As a first try, let's try to naively compute this quantity. But, it's important 
 $$
 x_1 = x_0 + \int_0^1 f_\theta(x(t, \theta), t)dt
 $$
+
 And notice here that we wrote $$x(t, \theta)$$ because we must not forget that the position of the particle at time $$t$$ doesn't only depend on time but also on the ODE which is controlled by $$\theta$$. Then we'd have 
 
 $$
@@ -159,6 +163,7 @@ Ok, now $$\frac{dL}{dx_1}$$ can be readily computable so let's focus on the seco
 $$
 \frac{d}{d\theta} f_\theta (x(t, \theta), t) = \partial_\theta f_\theta  + \partial_x f_\theta \frac{\partial x(t, \theta)}{\partial \theta} = J_\theta(t) + J_x(t) \frac{\partial x(t)}{\partial \theta }
 $$
+
 where we denote $$J_x, J_\theta$$ as the Jacobians of the neural network with respect to the input and parameters, respectively. Now, do note that the Jacobians are, in principle, computable through automatic differentiation (though let's worry about their cost later!). But, we'd be curious how to compute the object $$S(t) = \partial x(t)/\partial \theta$$ . Notice that when we're expressing objects as a function of time, we're doing some mental gymnastics of switching our view of tracing the trajectory of a single particle. This is not trivial and takes some time to get used to. It gave me a great deal of confusion at first. 
 
 Now, having the view of $$S(t)$$, it's natural to derive an ODE that describes it since then we can compute it through numerical integration. Let's do that.
@@ -166,21 +171,25 @@ Now, having the view of $$S(t)$$, it's natural to derive an ODE that describes i
 $$
 \dot{S}(t) = \frac{d}{dt} \frac{\partial x(t, \theta)}{\partial \theta} = \partial_{\theta, t}x(t, \theta) = \frac{d}{d \theta} f_\theta = J_\theta(t)  + J_x(t) S(t)
 $$
+
 So we've found the ODE. In fact, this result should not be surprising. From the above, we can see immediately that 
 
 $$
 \frac{d L}{d\theta} = \frac{d L }{dx_1}\int_0^1 \dot{S}(t)dt 
 $$
+
 But also, seen a different way
 
 $$
 \frac{d L}{d x_1} = \frac{d L }{dx_1}\frac{dx_1}{d\theta} = \frac{d L }{dx_1} S(1)
 $$
+
 So it should come as no surprise that
 
 $$
 S(1) = \int_0^1 \dot{S}(t)dt, \ S(0) = 0
 $$
+
 Wonderful. Now, in principle, this gives us an algorithm. But is it easily computable? The answer is no. And that's because integration involves computation of huge Jacobian matrices $$J_\theta, J_x$$. In fact, $$S(t)$$ itself is huge and impractical to materialize. Let's take a different approach.
 
 ### Parameterizing the Question in Time
@@ -192,6 +201,7 @@ Now, what is $$g(t)$$ exactly? Given the intuition we have, the proper way to vi
 $$
 g(t) = (\partial_\theta L(X(x, t, \theta)))(t)
 $$
+
 where, again, we first thought of the 3D function treating $$x, t, \theta$$ as three independent variables then we switched our view to strictly being a function of time tracing the trajectory of a single particle. Finding a Lagrangian ODE for $$g(t)$$ is promising because, unlike $$\partial x(t)/\partial \theta$$, $$g(t)$$ itself is not huge to materialize, so hopefully its ODE can be more efficiently computable. Let's do it.
 
 First, notice that
@@ -199,44 +209,53 @@ First, notice that
 $$
 g(t) = \frac{d L}{d X} \partial_\theta X \implies \dot{g}(t) = \frac{d L}{d X} \frac{d}{dt}(\partial_\theta X(t, x(t), \theta)) = \frac{dL}{dX}(\partial_{\theta, t}X + \partial_{\theta, x}f_\theta)
 $$
+
 On the other hand, we'll take advantage of another identity noticing that $$\dot{X} = 0$$, which is true because as we propagate time forward and move along the particle path the final destination won't change. So we have
 
 $$
 0 = \dot{X} = \frac{d}{dt}X(t, x(t), \theta) = \partial_t X + \partial_x X f_\theta
 $$
+
 We want to bridge this identity with what we have on $$g(t)$$. So again, let's switch our view to a 3D function of $$(t, x, \theta)$$ and take $$\partial/\partial \theta$$ then multiply by $$\frac{d L}{dX}$$, we then have 
 
 $$
 \partial_{\theta,t} X + \partial_{\theta,x }f_\theta + \partial_x X J_\theta = 0 \implies \frac{d L }{d X}(\partial_{\theta, t} X + \partial_{\theta, x} f_\theta) + \frac{d L }{dX}\partial_x X J_\theta = 0
 $$
+
 Interpreting this equation as a function of $$t$$ on the particle trajectory and matching with what we have so far we conclude that 
 
 $$
 \dot{g}(t) + \Big(\frac{d L}{d X}\partial_x X\Big)(t) J_\theta(t) = 0
 $$
+
 We're not there yet. But this looks promising because we don't have to materialize any big matrices. Even though $$J_\theta$$ is huge, here it's multiplied by the vector:
 
 $$
 a(t) = \Big(\frac{d L}{dX}\partial_x X\Big)(t) = \partial_x L(X(x, t, \theta))(t)
 $$
+
 which we'll call the adjoint vector! $$a(t)$$ itself is not huge to materialize so it's natural (again) to try to find an ODE describing it. Let's do that!
 
 $$
 \dot{a}(t) = \frac{d}{dt}\Big(\frac{dL}{dX}\partial_x X\Big) = \frac{dL}{dX}\Big(\partial_{x, t}X + \partial_{x, x}X f_\theta\Big)
 $$
+
 This time, let's differentiate the identity $$\dot{X}$$ with respect to $$\partial_x$$ and then multiply by $$\frac{dL}{dX}$$ we find
 
 $$
 0 = \partial_{t, x}X + \partial_{x, x}X f_\theta + \partial_x X J_x\implies 0 = \Big(\frac{dL}{dX}(\partial_{t, x}X + \partial_{x, x}X f_\theta)\Big)(t) + \Big(\frac{dL}{dX}\partial_xX\Big)(t) J_x(t) = 0
 $$
+
 which is nothing but
 
 $$
 \dot{a}(t) + a(t)J_x(t) =0\implies\dot{a}(t) = -a(t)J_x(t)
 $$
+
 And we're done! We now derived the two crucial ODEs
 
 $$
 \boxed{\dot{g}(t) = -a(t)J_\theta(t), \ \dot{a}(t) = -a(t)J_x(t)}
 $$
+
 Both $$a(t), g(t)$$ are small to materialize and the integration of both ODEs involves Jacobian-vector products which can be computed efficiently in linear time.
