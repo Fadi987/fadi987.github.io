@@ -20,6 +20,8 @@ Now, since $$x_1$$ is a high-dimensional vector (e.g, image), then the Jacobian 
 
 In CNF, instead of asking: "How can we transform $$x_0\rightarrow x_1$$ in one step?". We ask "How can I deterministically transform $$x_0$$ continuously in time according to a dynamical system described by an ODE $$\dot{x}_t = f_\theta(x_t, t)$$ where at $$t=1$$ we have $$x_1\sim\rho_1$$ ?".  The beauty behind this formulation is that we have decomposed the complexity of a single jump from $$x_0\rightarrow x_1$$ into a time-varying velocity field that continuously, and gradually takes us there. More beautifully, the math works out so that we actually avoid computing the Jacobian. Let's see how this is the case. 
 
+We now switch to using $$p_t(x)$$ for the model's time-evolving density under the flow, with $$p_0 = \rho_0$$. At $$t=1$$, $$p_1$$ is the model's push-forward density, which training aims to match to the data distribution $$\rho_1$$.
+
 First, let's think about $$x_t = X(t, x_0)$$ at time $$t$$ and notice that, again, according to the change of measure formula we have
 
 $$
@@ -72,10 +74,10 @@ $$
 \frac{d \mathrm{log}(p_t(x_t))}{dt} = - \nabla \cdot f_\theta(x_t, t)
 $$
 
-which we can integrate to get the likelihood yielding the canonical equation 
+which we can integrate to get the likelihood. Denoting $$X_{s,t}(x)$$ as the flow map that takes a point $$x$$ at time $$s$$ to its position at time $$t$$ under the ODE, we obtain the canonical equation
 
 $$
-\mathrm{log}(\rho_1(x_1)) = \mathrm{log}(\rho_0(X_{1, 0}(x_1))) - \int_0^1 \nabla \cdot f_{\theta}(X_{1, \tau}(x_1), \tau)d\tau
+\mathrm{log}(p_1(x_1)) = \mathrm{log}(p_0(X_{1, 0}(x_1))) - \int_0^1 \nabla \cdot f_{\theta}(X_{1, \tau}(x_1), \tau)d\tau
 $$
 
 which lets us compute the log-likelihood used in training of CNFs. Wonderful! One final detail, let's connect it to the Eulerian view. We'll start from the Transport equation and then work backward. 
@@ -182,7 +184,7 @@ $$
 But also, seen a different way
 
 $$
-\frac{d L}{d x_1} = \frac{d L }{dx_1}\frac{dx_1}{d\theta} = \frac{d L }{dx_1} S(1)
+\frac{d L}{d\theta} = \frac{d L }{dx_1}\frac{dx_1}{d\theta} = \frac{d L }{dx_1} S(1)
 $$
 
 So it should come as no surprise that
@@ -208,7 +210,7 @@ where, again, we first thought of the 3D function treating $$x, t, \theta$$ as t
 First, notice that
 
 $$
-g(t) = \frac{d L}{d X} \partial_\theta X \implies \dot{g}(t) = \frac{d L}{d X} \frac{d}{dt}(\partial_\theta X(t, x(t), \theta)) = \frac{dL}{dX}(\partial_{\theta, t}X + \partial_{\theta, x}f_\theta)
+g(t) = \frac{d L}{d X} \partial_\theta X \implies \dot{g}(t) = \frac{d L}{d X} \frac{d}{dt}(\partial_\theta X(t, x(t), \theta)) = \frac{dL}{dX}(\partial_{\theta, t}X + \partial_{\theta, x}X \cdot f_\theta)
 $$
 
 On the other hand, we'll take advantage of another identity noticing that $$\dot{X} = 0$$, which is true because as we propagate time forward and move along the particle path the final destination won't change. So we have
@@ -220,7 +222,7 @@ $$
 We want to bridge this identity with what we have on $$g(t)$$. So again, let's switch our view to a 3D function of $$(t, x, \theta)$$ and take $$\partial/\partial \theta$$ then multiply by $$\frac{d L}{dX}$$, we then have 
 
 $$
-\partial_{\theta,t} X + \partial_{\theta,x }f_\theta + \partial_x X J_\theta = 0 \implies \frac{d L }{d X}(\partial_{\theta, t} X + \partial_{\theta, x} f_\theta) + \frac{d L }{dX}\partial_x X J_\theta = 0
+\partial_{\theta,t} X + \partial_{\theta,x}X \cdot f_\theta + \partial_x X J_\theta = 0 \implies \frac{d L }{d X}(\partial_{\theta, t} X + \partial_{\theta, x} X \cdot f_\theta) + \frac{d L }{dX}\partial_x X J_\theta = 0
 $$
 
 Interpreting this equation as a function of $$t$$ on the particle trajectory and matching with what we have so far we conclude that 
