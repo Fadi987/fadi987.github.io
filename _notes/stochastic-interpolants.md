@@ -12,7 +12,7 @@ $$
 I_t = I(x_0, x_1, t) + \gamma(t)z
 $$
 
-Where $$(x_0, x_1)$$ is sampled from a coupling with density $$\rho(x_0, x_1)$$ and $$z\sim\mathcal{N}(0, 1)\perp (x_0, x_1)$$. Note that you can sample $$I_t$$ very easily. And the most important realization is that **the time-dependent density of $$I_t$$ denoted by $$\rho_t(x)$$ follows transport equations and forward/backward Fokker-Planck equations which implies that same density can be obtained through ODEs/SDEs, which are the basis of a generative model, and all we have to do is to empirically learn a few important properties of $$I_t$$ such as its velocity field and the score function**
+Where $$(x_0, x_1)$$ is sampled from a coupling with density $$\rho(x_0, x_1)$$ and $$z\sim\mathcal{N}(0, 1)\perp (x_0, x_1)$$. Note that you can sample $$I_t$$ very easily. And the most important realization is that the time-dependent density of $$I_t$$ denoted by $$\rho_t(x)$$ follows transport equations and forward/backward Fokker-Planck equations which implies that same density can be obtained through ODEs/SDEs, which are the basis of a generative model, and all we have to do is to empirically learn a few important properties of $$I_t$$ such as its velocity field and the score function.
 
 ## Derivation of the Transport Equation
 
