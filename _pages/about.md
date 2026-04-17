@@ -26,7 +26,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am an incoming PhD student in [Machine Learning at Carnegie Mellon University](https://www.ml.cmu.edu/), where I will be advised by [Professor Nicholas Boffi](https://nmboffi.github.io/). I hold a B.S. in Mathematics and Computer Science (Courses 18 & 6-3) and an M.Eng. in EECS from [MIT](https://www.mit.edu/). My master's thesis, supervised by [Yury Polyanskiy](https://people.lids.mit.edu/yp/homepage/), developed a novel statistical hypothesis testing procedure for the discovery of the Higgs boson using LHC data.
+I am an incoming PhD student in [Machine Learning at Carnegie Mellon University](https://www.ml.cmu.edu/). I hold a B.S. in Mathematics and Computer Science (Courses 18 & 6-3) and an M.Eng. in EECS from [MIT](https://www.mit.edu/). My master's thesis, supervised by [Yury Polyanskiy](https://people.lids.mit.edu/yp/homepage/), developed a novel statistical hypothesis testing procedure for the discovery of the Higgs boson using LHC data.
 
 Prior to my PhD, I spent approximately three years as a Quantitative Research Engineer in Global Quantitative Strategies (GQS) at [Citadel](https://www.citadel.com/). During my non-compete period, I collaborated remotely with the group of [Professor Aditi Krishnapriyan](https://a1k12.github.io/) at UC Berkeley, leading to co-authoring the paper *Transformers Discover Molecular Structure Without Graph Priors*.
 
