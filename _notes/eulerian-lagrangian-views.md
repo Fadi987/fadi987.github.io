@@ -66,6 +66,8 @@ $$
 h(x, t) = 0
 $$
 
+The end result of this technique is to derive $$h(x, t) = 0$$ from $$f(x, t) = 0$$.
+
 All of this is to clarify what we mean by "toggling" the Eulerian and Lagrangian view. Mathematically, it is to
 
 1. Have an equation like $$f(x, t) = 0$$
