@@ -2,7 +2,7 @@
 layout: page
 permalink: /notes/
 title: notes
-description: Working notes on topics I'm learning, with re-derivations and insights.
+description: Working notes where I elaborate on concepts I'm currently studying. When a proof or technique seems to come out of the blue, I try to reverse-engineer how one might have arrived at it, reconstructing the chain of reasoning from scratch.
 nav: false
 nav_order: 1
 ---
