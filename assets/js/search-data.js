@@ -24,7 +24,7 @@ ninja.data = [{
               window.location.href = "/notes/continuous-normalizing-flows/";
             },},{id: "notes-eulerian-amp-lagrangian-views",
           title: 'Eulerian &amp;amp; Lagrangian Views',
-          description: "A mathematical perspective on toggling between Eulerian and Lagrangian formulations in dynamical systems, and the conditions under which this is valid.",
+          description: "Toggling between Eulerian and Lagrangian formulations, and the conditions under which this is valid.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/eulerian-lagrangian-views/";
             },},{id: "notes-stochastic-interpolants",
