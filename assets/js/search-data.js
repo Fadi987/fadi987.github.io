@@ -22,6 +22,11 @@ ninja.data = [{
           description: "Deriving the Lagrangian and Eulerian views of continuous normalizing flows and the adjoint method for efficient gradient computation.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/continuous-normalizing-flows/";
+            },},{id: "notes-eulerian-amp-lagrangian-views",
+          title: 'Eulerian &amp;amp; Lagrangian Views',
+          description: "A mathematical perspective on toggling between Eulerian and Lagrangian formulations in dynamical systems, and the conditions under which this is valid.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/eulerian-lagrangian-views/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
