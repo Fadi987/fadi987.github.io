@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Eulerian & Lagrangian Views
-description: A mathematical perspective on toggling between Eulerian and Lagrangian formulations in dynamical systems, and the conditions under which this is valid.
+description: Toggling between Eulerian and Lagrangian formulations, and the conditions under which this is valid.
 date: 2026-04-16
 math: true
 ---
