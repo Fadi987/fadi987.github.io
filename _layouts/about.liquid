@@ -75,6 +75,7 @@ layout: default
     <!-- Notes -->
     {% if page.notes and site.notes.size > 0 %}
       <h2>notes</h2>
+      <p>Working notes where I elaborate on concepts I'm currently studying. When a proof or technique seems to come out of the blue, I try to reverse-engineer how one might have arrived at it, reconstructing the chain of reasoning from scratch.</p>
       {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
       {% for note in sorted_notes %}
         <div style="margin-bottom: 0.75rem;">
