@@ -28,9 +28,9 @@ $$
 p_t(x_t) =p_0(x_0)\Big| \frac{\partial x_t}{\partial x_0}\Big|^{-1} \implies \mathrm{log}(p_t(x_t)) = \mathrm{log}(p_0(x_0)) - \mathrm{log}(|J(t)|)
 $$
 
-where $$J(t)$$ is the time-varying Jacobian, and we think of it, for now, as function of $$t$$. Ok, now what? In such a setup (a deterministic ODE connecting two measures), there are two equivalent mathematical views: the Lagrangian view and the Eulerian view. 
+where $$J(t)$$ is the time-varying Jacobian, and we think of it, for now, as function of $$t$$. Ok, now what? In such a setup (a deterministic ODE connecting two measures), there are two equivalent mathematical views: the Lagrangian view and the Eulerian view. For a rough mental model, take a look at [Eulerian & Lagrangian Views]({{ '/notes/eulerian-lagrangian-views/' | relative_url }}).
 
-Let's take the probability density $$p_t(x)$$ as our object of study. As a rough mental model, in the Eulerian view, we focus on a single point in space $$x$$, and we think how conditions evolve around that point in time by taking $$\frac{\partial}{\partial t}p_t(x)$$. The Eulerian view is a "flow point of view", where we don't think about any single individual particle in the flow but rather on the flow as a whole at a given point in space as time progresses. In the Lagrangian view, we take a "particle point of view" where we move along the dynamical system in time. So not only is time moving forward, but also the particle we're moving along. In other words, we think about the total derivative $$\frac{d}{dt}p_t(x_t)$$. The Eulerian view leads to the probability flow PDE which is computationally prohibitive but mathematically very important. The Lagrangian view, on the other hand, is much more tractable computationally and is the backbone of likelihood computation for CNF training.
+In our case, the Eulerian view is represented by the probability flow PDE which is computationally prohibitive but mathematically very important. The Lagrangian view, on the other hand, is much more tractable computationally and is the backbone of likelihood computation for CNF training.
 
 So let's move forward with the Lagrangian view and compute the total derivative of density (or log-density)  in time. We have
 
