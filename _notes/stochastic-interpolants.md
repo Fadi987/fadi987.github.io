@@ -14,7 +14,7 @@ $$
 
 Where $$(x_0, x_1)$$ is sampled from a coupling with density $$\rho(x_0, x_1)$$ and $$z\sim\mathcal{N}(0, 1)\perp (x_0, x_1)$$. Note that you can sample $$I_t$$ very easily. And the most important realization is that **the time-dependent density of $$I_t$$ denoted by $$\rho_t(x)$$ follows transport equations and forward/backward Fokker-Planck equations which implies that same density can be obtained through ODEs/SDEs, which are the basis of a generative model, and all we have to do is to empirically learn a few important properties of $$I_t$$ such as its velocity field and the score function**
 
-## The Case of $$\gamma(t) = 0$$
+## Derivation of the Transport Equation
 
 Let's first take the simpler case of $$\gamma(t) = 0$$, meaning no added noise, so $$I_t$$ is a deterministic interpolation of the coupling. Note that this case is still "stochastic" because the randomness comes from the coupling $$(x_0, x_1)\sim\rho$$, not from $$z$$. This sharpens the contrast with CNFs, where the randomness is only in $$x_0$$ and then the flow is deterministic.
 
@@ -70,7 +70,13 @@ $$
 \partial_t p_t(x) = \frac{1}{2\pi}\int\int\int \rho(x_0, x_1) ik\cdot \partial_t I_t(x_0, x_1)e^{-ik(x-I_t(x_0, x_1))}dk\, d(x_0, x_1)
 $$
 
-Now, the key technical step: notice that $$ik \cdot e^{-ik(x - I_t)} = -\nabla_x e^{-ik(x - I_t)}$$, so $$ik \cdot \partial_t I_t \cdot e^{-ik(x - I_t)} = -\nabla_x \cdot (\partial_t I_t \cdot e^{-ik(x - I_t)})$$. This means we can write $$\partial_t p_t(x) = -\nabla \cdot j_t(x)$$ where
+Now, notice that 
+
+$$
+ik \cdot e^{-ik(x - I_t)} = -\nabla_x e^{-ik(x - I_t)} \implies ik \cdot \partial_t I_t \cdot e^{-ik(x - I_t)} = -\nabla_x \cdot (\partial_t I_t \cdot e^{-ik(x - I_t)})
+$$ 
+
+This means we can write $$\partial_t p_t(x) = -\nabla \cdot j_t(x)$$ where
 
 $$
 \begin{align}
