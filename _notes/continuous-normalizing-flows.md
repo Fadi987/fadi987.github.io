@@ -104,40 +104,9 @@ Thus, all terms cancel out and the Transport equation holds as expected!
 
 ### The Formal Equivalence of Transport: Eulerian PDE to Lagrangian ODE
 
-To rigorously prove that the Eulerian transport PDE holds using the Lagrangian framework, we must rely on the reversible nature of the flow. We do not conflate independent variables; instead, we map the entire Eulerian space to the Lagrangian path space.
+The argument is simple. We have an Eulerian equation. We represent it as a particle path. Since the equation holds along particle paths, and we can represent every $$(x,t)$$ as lying on some particle path, the equation holds for all $$(x,t)$$. So the Eulerian equation holds.
 
-**1. The Rigorous Setup**
-- **Lagrangian Base:** We assume a dynamical system $$\dot{x} = f_\theta(x, t)$$ that propagates an initial particle $$x_0$$ forward in time, yielding the deterministic map $$X(t, x_0)$$. 
-- **Density Definition:** We are given an initial probability density $$\rho_0$$ at $$t=0$$. We define the density at time $$t$$, $$p_t(x)$$, via the push-forward measure, ensuring it is absolutely continuous with respect to the Lebesgue measure (so $$p_t(x)$$ is well-defined everywhere).
-
-**2. The Eulerian Pointwise Condition**
-
-The Eulerian transport equation is a Partial Differential Equation:
-
-$$\partial_t p_t(x) + \nabla \cdot (p_t(x) f_\theta(x, t)) = 0$$
-
-For this PDE to be globally true, it must hold if and only if it evaluates to exactly $$0$$ for **every arbitrary pair** of independent coordinates $$(t, x)$$.
-
-**3. The Bijective Pullback (The Transition)**
-
-Focus on one specific, arbitrary coordinate pair $$(t, x)$$. Because the defining ODE is a deterministic flow, it is a diffeomorphism (invertible).
-
-- We can simulate the ODE _backward_ from $$(t, x)$$ to time $$t=0$$. 
-- This guarantees a **unique** initial starting condition, $$x_0$$. 
-- Therefore, the specific real-valued coordinate $$x$$ can be exactly equated to the Lagrangian map evaluated from that unique origin: $$x = X(t, x_0)$$.
-
-**4. The Chain of Equivalences**
-
-Because the mapping between $$x$$ and $$x_0$$ is a bijection, we can state the following "if and only if" chain:
-
-1. The Eulerian PDE holds for all independent pairs $$(t, x)$$...    
-2. **If and only if** the PDE holds when evaluated at $$(t, X(t, x_0))$$ for all initial conditions $$x_0$$ and times $$t$$. 
-3. By evaluating the PDE specifically along the path $$X(t, x_0)$$, the multivariable chain rule collapses the spatial gradient and the partial time derivative into the **total material derivative**: $$\frac{d}{dt} p_t(X(t, x_0))$$. 
-4. This reduces the evaluated PDE exactly to the Lagrangian ODE: $$\frac{d}{dt} \log p_t = - \nabla \cdot f_\theta$$.
-    
-**Conclusion:**
-
-Since we have already proven that the Lagrangian ODE holds true for every path $$(t, x_0)$$, and because every possible coordinate $$(t, x)$$ lies exactly on one of these unique reversible paths, the global Eulerian Transport PDE is rigorously proven to hold everywhere.
+That's the whole thing. For a more detailed treatment of the conditions under which this toggle works, see [Eulerian & Lagrangian Views]({{ '/notes/eulerian-lagrangian-views/' | relative_url }}).
 
 ## The Adjoint Method
 
