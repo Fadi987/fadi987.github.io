@@ -20,6 +20,8 @@ This is a single-page personal academic site (no navigation tabs). The front pag
 - All nav pages set to `nav: false` (blog, publications, projects, teaching, repositories, cv, people, submenus)
 - The navbar (`_includes/header.liquid`) was replaced with just the dark/light toggle
 - `CLAUDE.md` is in the Jekyll `exclude` list in `_config.yml` (because Liquid tags in code examples cause build errors)
+- RSS feed disabled: `jekyll-feed` removed from both `_config.yml` plugins and `Gemfile` (must remove from both — `:jekyll_plugins` group auto-loads gems regardless of `_config.yml`)
+- GitHub Actions: Prettier CI workflows were deleted (`.github/workflows/prettier.yml` and `prettier-comment-on-pr.yml`)
 
 ### Publications / BibTeX
 
@@ -86,7 +88,7 @@ code_diff: true           # for code diff display
 ### Supported Content Features
 
 - **Images**: Use `include figure.liquid` with `path`, `class="img-fluid rounded z-depth-1"`, and row/col grid layout
-- **Math**: MathJax via `$$ E = mc^2 $$` (inline) or as a separate paragraph (display mode)
+- **Math**: MathJax enabled per-page with `math: true` in front matter. See "Math/MathJax" section below for critical Kramdown compatibility rules
 - **Code blocks**: Standard markdown fenced blocks with syntax highlighting
 - **Diagrams**: Mermaid diagrams in mermaid code blocks (enable in front matter)
 - **Jupyter notebooks**: jupyter_notebook tag wrapped in nomarkdown tags
@@ -121,3 +123,48 @@ related_publications: true   # link to bib entries
 ```
 
 Content supports the same features as blog posts (images in grid layouts, code blocks, math, etc.).
+
+## Notes
+
+Notes are a Jekyll collection in `_notes/`. They appear on the front page (via `_layouts/about.liquid`) and have a dedicated listing page at `_pages/notes.md` (`/notes/`).
+
+### Adding a New Note
+
+1. Create `_notes/slug-name.md`
+2. Front matter:
+   ```yaml
+   layout: page
+   title: Note Title
+   description: One-line description shown in listings
+   date: YYYY-MM-DD
+   math: true
+   ```
+3. The note will automatically appear on the front page and `/notes/` (sorted by date, newest first)
+4. Cross-link between notes using: `[Link Text]({{ '/notes/slug-name/' | relative_url }})`
+
+### Math / MathJax (Critical Kramdown Compatibility)
+
+Kramdown is the Markdown processor and it conflicts with MathJax in several ways. These rules **must** be followed:
+
+1. **Inline math**: Use `$$...$$` (NOT single `$`). Kramdown treats `$$` as inline when on the same line as text.
+2. **Display math**: Use `$$...$$` on its own lines with **blank lines before and after** the opening and closing `$$`. Without blank lines, Kramdown may render it inline.
+3. **Underscores**: Kramdown interprets `_` as emphasis even inside math. Using `$$` delimiters (not `$`) avoids this for inline math.
+4. **Pipe characters `|`**: Kramdown eats `|` as table column separators. Use `\lvert` and `\rvert` (or `\mid` for conditionals) instead of raw `|` in inline math. Display math blocks (with blank lines) are safe from this.
+5. **Absolute values / norms**: Use `\lVert \rVert` for norms, `\lvert \rvert` for absolute values.
+
+Example of correct display math:
+
+```markdown
+Some text.
+
+$$
+\partial_t p_t(x) + \nabla \cdot(p_t(x)v_t(x)) = 0
+$$
+
+More text.
+```
+
+Example of correct inline math:
+```markdown
+The density $$p_t(x)$$ satisfies the transport equation.
+```
