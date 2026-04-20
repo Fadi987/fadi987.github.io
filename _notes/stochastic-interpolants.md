@@ -101,6 +101,16 @@ Now of course, we still don't have a clear physical intuition on what $$v_t(x)$$
 
 The punch line of this write up is to gather intuition on why we had to use Fourier Transforms to derive the Transport Equation. The writeup above is not strictly rigorous, and the Stochastic Interpolants paper starts from Fourier Transforms (or characteristic function), and moves in reverse. Though when I first looked at the proof, I was baffled at the thought of moving into the complex domain and using Fourier Transforms so suddenly. And this is my way of building intuition of how I would have come up with their approach if I were in their shoes.
 
+### Visualizations
+
+Here are some examples of learned transport from a 2D Gaussian to various target distributions:
+
+{% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to checkerboard" %}
+
+{% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to eight Gaussians arranged on a circle" %}
+
+{% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to two moons" %}
+
 ## Interpreting and Estimating The Velocity Field
 
 Ok, now that we have this object $$v_t(x)$$, let's gather some intuition on what it represents. First, recall the expression
