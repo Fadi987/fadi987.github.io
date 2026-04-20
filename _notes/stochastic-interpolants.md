@@ -16,7 +16,7 @@ Where $$(x_0, x_1)$$ is sampled from a coupling with density $$\rho(x_0, x_1)$$ 
 
 ## Derivation of the Transport Equation
 
-Let's first take the simpler case of $$\gamma(t) = 0$$, meaning no added noise, so $$I_t$$ is a deterministic interpolation of the coupling. Note that this case is still "stochastic" because the randomness comes from the coupling $$(x_0, x_1)\sim\rho$$, not from $$z$$. This sharpens the contrast with CNFs, where the randomness is only in $$x_0$$ and then the flow is deterministic.
+Let's first take the simpler case of $$\gamma(t) = 0$$, meaning no added noise, so $$I_t$$ is a deterministic interpolation of the coupling. Note that this case is still "stochastic" because the randomness still comes from the coupling $$(x_0, x_1)\sim\rho$$, just not from $$z$$. This sharpens the contrast with CNFs, where the randomness is only in $$x_0$$ and then the flow is deterministic.
 
 One thing we'd like to prove is that the time-dependent density $$p_t(x)$$ satisfies a Transport Equation
 
@@ -55,19 +55,19 @@ but it's not clear how to find $$\partial_t F_{t, x}(\rho(x_0, x_1))$$.
 Fourier Transforms come to the rescue! It turns out that we can represent
 
 $$
-\delta(x) = \int_{\mathbb{R}} \frac{1}{2\pi}e^{-ikx}dk
+\delta(x) = \int_{\mathbb{R}} \frac{1}{(2\pi)^d}e^{-ikx}dk
 $$
 
 Intuitively, for $$x=0$$, we're integrating a constant over an infinite range so it blows up. Otherwise, the integrand cycles on the complex plane and things cancel out. Of course, this is not a rigorous argument. Rigorously, this is the statement that $$\delta$$ is the inverse Fourier transform of the constant function, in the distributional sense. In our case, I like to think of the integral formula as notational convenience to manipulate objects containing $$\delta$$ in their formulations, like $$F_{t, x}$$ above and compute their derivatives, which are defined and do make sense. Let's verify this. We'll try to compute $$\partial_t p_t(x)$$ using this substitution.
 
 $$
-p_t(x) = \int \rho(x_0, x_1)\delta(x - I_t(x_0, x_1)) d(x_0, x_1) = \int_{\mathbb{R}}\int_{\mathbb{R}} \rho(x_0, x_1) \Big(\int_{\mathbb{R}} \frac{1}{2\pi}e^{-ik(x-I_t(x_0, x_1))}dk\Big)d(x_0, x_1)
+p_t(x) = \int \rho(x_0, x_1)\delta(x - I_t(x_0, x_1)) d(x_0, x_1) = \int_{\mathbb{R}}\int_{\mathbb{R}} \rho(x_0, x_1) \Big(\int_{\mathbb{R}} \frac{1}{(2\pi)^d}e^{-ik(x-I_t(x_0, x_1))}dk\Big)d(x_0, x_1)
 $$
 
 This implies that
 
 $$
-\partial_t p_t(x) = \frac{1}{2\pi}\int\int\int \rho(x_0, x_1) ik\cdot \partial_t I_t(x_0, x_1)e^{-ik(x-I_t(x_0, x_1))}dk\, d(x_0, x_1)
+\partial_t p_t(x) = \frac{1}{(2\pi)^d}\int\int\int \rho(x_0, x_1) ik\cdot \partial_t I_t(x_0, x_1)e^{-ik(x-I_t(x_0, x_1))}dk\, d(x_0, x_1)
 $$
 
 Now, notice that 
@@ -80,7 +80,7 @@ This means we can write $$\partial_t p_t(x) = -\nabla \cdot j_t(x)$$ where
 
 $$
 \begin{align}
-j_t(x) &= \frac{1}{2\pi} \int\int\int \rho(x_0, x_1)\partial_tI_t(x_0, x_1)e^{-ik(x-I_t(x_0, x_1))}dk\,d(x_0, x_1) \\
+j_t(x) &= \frac{1}{(2\pi)^d} \int\int\int \rho(x_0, x_1)\partial_tI_t(x_0, x_1)e^{-ik(x-I_t(x_0, x_1))}dk\,d(x_0, x_1) \\
 &= \int\int\rho(x_0, x_1)\partial_tI_t(x_0, x_1)\delta(x-I_t(x_0, x_1))d(x_0, x_1)
 \end{align}
 $$
@@ -100,3 +100,82 @@ $$
 Now of course, we still don't have a clear physical intuition on what $$v_t(x)$$ is or, most importantly, how to empirically estimate it from data. That's what we'll do next.
 
 The punch line of this write up is to gather intuition on why we had to use Fourier Transforms to derive the Transport Equation. The writeup above is not strictly rigorous, and the Stochastic Interpolants paper starts from Fourier Transforms (or characteristic function), and moves in reverse. Though when I first looked at the proof, I was baffled at the thought of moving into the complex domain and using Fourier Transforms so suddenly. And this is my way of building intuition of how I would have come up with their approach if I were in their shoes.
+
+## Interpreting and Estimating The Velocity Field
+
+Ok, now that we have this object $$v_t(x)$$, let's gather some intuition on what it represents. First, recall the expression
+
+$$
+p_t(x) = \int \rho(x_0, x_1)\delta(x - I_t(x_0, x_1)) d(x_0, x_1)
+$$
+
+which can be intuitively interpreted as aggregating the density of $$\rho(x_0, x_1)$$ through the filter $$x = I_t(x_0, x_1)$$ which gives us $$p_t(x)$$. The expression of $$j_t(x)$$
+
+$$
+j_t(x) = \int \rho(x_0, x_1)\partial_tI_t(x_0, x_1)\delta(x-I_t(x_0, x_1))d(x_0, x_1)
+$$
+
+is doing something very similar. Instead of simply summing up $$\rho(x_0, x_1)$$ through the filter, it's computing a weighted sum $$\partial_t I_t(x_0, x_1)$$ through the filter with $$\rho(x_0, x_1)$$ being the weights. This should immediately hint to us that $$j_t(x)$$ resembles an expectation of $$\partial_tI_t(x_0, x_1)$$ over some distribution. Now, note that as it stands, the weights $$\rho(x_0, x_1)$$ filtered through $$\delta(x-I_t(x_0, x_1))$$ don't add up to $$1$$. So to have a legitimate conditional expectation, we should re-normalize by dividing by the sum of the weights over the filter which is nothing but $$p_t(x)$$! This gives us exactly $$v_t(x)= j_t(x)/p_t(x)$$! So $$v_t(x)$$ is indeed an expectation, but what's the distribution? Well, it is nothing but $$\rho(x_0, x_1)$$ restricted to $$I_t(x_0, x_1) = x$$ and re-normalized so it's the conditional expectation:
+
+$$
+v_t(x) = \mathbb{E}[\partial_t I_t(x_0, x_1) \mid I_t(x_0, x_1) = x]
+$$
+
+This is a beautiful result, not only because it's very intuitive. But also, it has a close resemblance to [Continuous Normalizing Flows]({{ '/notes/continuous-normalizing-flows/' | relative_url }}). In the case of CNF, the velocity field of a particle was a unique deterministic function of $$(x, t)$$. In the case of Stochastic Interpolants, the velocity field is not unique given $$(x, t)$$ and there's still inherent uncertainty to $$\partial_t I_t$$. However, the problem naturally solves itself by taking an expectation!
+
+Finally, our last task is to come up with the algorithm to estimate $$v_t(x)$$ empirically. Because $$v_t(x)$$ is a conditional expectation, and conditional expectations are characterized as $$L^2$$ minimizers, the loss function is indeed a simple $$L^2$$ expression. Regressing $$\partial_t I_t$$ against a function of $$I_t$$ under squared loss recovers $$v_t$$ exactly. To see this clearly, let's zoom out to the general setup of regression, where we have two variables $$(X, Y)\sim \rho(x, y)$$ and we'd like to minimize
+
+$$
+J(f) = \mathbb{E}_{(X, Y)}[(Y-f(X))^2]
+$$
+
+over all functions $$f$$ of $$X$$. Notice that
+
+$$
+J(f) = \mathbb{E}_{X}[\mathbb{E}[(Y-f(X))^2 \mid X]]
+$$
+
+Now, given that we can choose $$f(X)$$ whatever we want given a fixed value of $$X$$, optimizing $$J(f)$$ reduces to pointwise optimization of $$f(X)$$ for every $$X$$. And we can think of the inner expectation as
+
+$$
+\mathbb{E}[(Y-a)^2 \mid X]
+$$
+
+for some constant $$a$$ that we can choose to be whatever we want. By differentiating this with respect to $$a$$ and setting to $$0$$, we see that
+
+$$
+a^* = \mathbb{E}[Y \mid X]
+$$
+
+All in all this tells us that the optimal function is $$f^{*} = \mathbb{E}[Y \mid X]$$.
+
+Going to $$v_t(x)$$, by drawing this analogy with regression, we can set
+
+$$
+X:= I_t(x_0, x_1), \quad Y:=\partial_t I_t(x_0, x_1)
+$$
+
+And our objective becomes
+
+$$
+J(\hat{v}_t) = \mathbb{E}_{(I_t, \partial_t I_t)}\Big[\lVert\partial_t I_t - \hat{v}_t(I_t)\rVert^2\Big] = \mathbb{E}_{x_0, x_1}\Big[\lVert\partial_t I_t(x_0, x_1) - \hat{v}_t(I_t(x_0, x_1))\rVert^2\Big]
+$$
+
+where in the last step we realize that the joint distribution of $$(I_t, \partial_t I_t)$$ is generated by sampling $$(x_0, x_1)$$. And we're done! This last equation can be computed empirically. Of course, during training we sample time $$t$$ from a uniform distribution so the overall objective is then
+
+$$
+G(\hat{v}) = \int_0^1 \mathbb{E}_{x_0, x_1}\Big[\lVert\partial_t I_t(x_0, x_1) - \hat{v}_t(I_t(x_0, x_1))\rVert^2\Big]dt
+$$
+
+To recap, what we've done essentially is to
+
+1. Define a Stochastic Interpolant of our choosing that we can sample efficiently $$I_t = I_t(x_0, x_1)$$
+2. Prove that time-dependent probability distribution $$p_t$$ satisfies the Transport Equation
+3. Finding an expression for the velocity field $$v_t(x)$$ as a conditional expectation
+4. Coming up with a simple quadratic objective $$G(\hat{v})$$ where $$v = \mathrm{argmin}\, G(\hat{v})$$
+5. And now we have a generative model $$x_0 \sim \rho_0, \dot{x}_t = \hat{v}(x_t, t)$$, where we integrate this ODE from $$t=0$$ to $$t=1$$ to generate a sample from (approximately) $$\rho_1$$
+
+The end product, $$\hat{v}(x, t)$$ is the same as CNFs. But whereas in CNFs we didn't have any restrictions on the velocity field and required two ODE integrations every training iteration. Here
+
+1. We pre-specified the interpolation path before we even start training, and
+2. We don't require ODE integrations to learn $$\hat{v}$$, just a simple quadratic loss
