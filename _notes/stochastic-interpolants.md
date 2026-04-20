@@ -105,11 +105,17 @@ The punch line of this write up is to gather intuition on why we had to use Four
 
 Here are some examples of learned transport from a 2D Gaussian to various target distributions:
 
-{% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to checkerboard" %}
-
-{% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to eight Gaussians arranged on a circle" %}
-
-{% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Transport from Gaussian to two moons" %}
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-md-0">
+    {% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Checkerboard" %}
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    {% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Eight Gaussians" %}
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    {% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Two moons" %}
+  </div>
+</div>
 
 ## Interpreting and Estimating The Velocity Field
 
