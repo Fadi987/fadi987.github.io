@@ -106,14 +106,23 @@ The punch line of this write up is to gather intuition on why we had to use Four
 Here are some examples of learned transport from a 2D Gaussian to various target distributions:
 
 <div class="row mt-3">
-  <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Checkerboard" %}
+  <div class="col-sm-4 mt-3 mt-md-0">
+    <figure>
+      <video src="{{ 'assets/video/stochastic-interpolants/checkerboard.mp4' | relative_url }}" style="width: 100%;" class="rounded z-depth-1" autoplay loop muted controls></video>
+      <figcaption class="caption">Checkerboard</figcaption>
+    </figure>
   </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Eight Gaussians" %}
+  <div class="col-sm-4 mt-3 mt-md-0">
+    <figure>
+      <video src="{{ 'assets/video/stochastic-interpolants/eight_gaussians.mp4' | relative_url }}" style="width: 100%;" class="rounded z-depth-1" autoplay loop muted controls></video>
+      <figcaption class="caption">Eight Gaussians</figcaption>
+    </figure>
   </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Two moons" %}
+  <div class="col-sm-4 mt-3 mt-md-0">
+    <figure>
+      <video src="{{ 'assets/video/stochastic-interpolants/moons.mp4' | relative_url }}" style="width: 100%;" class="rounded z-depth-1" autoplay loop muted controls></video>
+      <figcaption class="caption">Two moons</figcaption>
+    </figure>
   </div>
 </div>
 
