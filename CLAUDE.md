@@ -168,3 +168,24 @@ Example of correct inline math:
 ```markdown
 The density $$p_t(x)$$ satisfies the transport equation.
 ```
+
+### Videos / Media in Notes
+
+- Store video files in `assets/video/<note-slug>/`
+- **Do NOT use `{% include video.liquid %}` for side-by-side layouts** — the include's `width` HTML attribute doesn't constrain videos in grid columns properly
+- Instead, use raw HTML with `col-sm-N` and `style="width: 100%"` on the `<video>` tag:
+
+```html
+<div class="row mt-3">
+  <div class="col-sm-4 mt-3 mt-md-0">
+    <figure>
+      <video src="{{ 'assets/video/note-slug/file.mp4' | relative_url }}" style="width: 100%;" class="rounded z-depth-1" autoplay loop muted controls></video>
+      <figcaption class="caption">Caption</figcaption>
+    </figure>
+  </div>
+  <!-- more col-sm-N divs -->
+</div>
+```
+
+- Use `col-sm-4` for 3 videos, `col-sm-6` for 2, `col-sm-12` for 1 (full width)
+- `{% include video.liquid %}` works fine for single standalone videos (not in a grid)

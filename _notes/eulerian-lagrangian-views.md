@@ -6,7 +6,7 @@ date: 2026-04-16
 math: true
 ---
 
-What is an Eulerian formulation and what is a Lagrangian formulation? We hear the perspective that an Eulerian formulation is about "flows" where you focus on a specific point in space and watch the water flow through it in time. But I have another perspective that is more mathematical. So, we're dealing with dynamical systems. In full generality, we have two variables $$x, t$$. The Eulerian formulation treats these two variables as independent. Thus, Eulerian relationships are typically of the form
+What is an Eulerian formulation and what is a Lagrangian formulation? We hear the perspective that an Eulerian formulation is about "flows" where you focus on a specific point in space and watch the water flow through it in time, while a Lagrangian formulation is about "particles" where you follow a specific particle and track its trajectory. But I have another perspective that is more mathematical. We're dealing with dynamical systems. In full generality, we have two variables $$x, t$$. The Eulerian formulation treats these two variables as independent. Thus, Eulerian relationships are typically of the form
 
 $$
 f(x, t) = 0
