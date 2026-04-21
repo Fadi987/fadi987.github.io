@@ -107,13 +107,13 @@ Here are some examples of learned transport from a 2D Gaussian to various target
 
 <div class="row mt-3">
   <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Checkerboard" %}
+    {% include video.liquid path="assets/video/stochastic-interpolants/checkerboard.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Checkerboard" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Eight Gaussians" %}
+    {% include video.liquid path="assets/video/stochastic-interpolants/eight_gaussians.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Eight Gaussians" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" autoplay=true loop=true muted=true controls=true caption="Two moons" %}
+    {% include video.liquid path="assets/video/stochastic-interpolants/moons.mp4" class="img-fluid rounded z-depth-1" width="100%" autoplay=true loop=true muted=true controls=true caption="Two moons" %}
   </div>
 </div>
 
