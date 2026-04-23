@@ -30,7 +30,7 @@ I am an incoming PhD student in [Machine Learning at Carnegie Mellon University]
 
 Prior to my PhD, I spent approximately three years as a Quantitative Research Engineer in Global Quantitative Strategies (GQS) at [Citadel](https://www.citadel.com/). During my non-compete period, I collaborated remotely with the group of [Professor Aditi Krishnapriyan](https://a1k12.github.io/) at UC Berkeley, leading to co-authoring the paper *Transformers Discover Molecular Structure Without Graph Priors*.
 
-My research interests lie at the intersection of generative modeling and applied mathematics.
+My research interests lie at the intersection of generative modeling and applied mathematics. I am supported by the [DOE Computational Science Graduate Fellowship (CSGF)](https://www.krellinst.org/csgf/).
 
 I was born and raised in Syria and moved to the United States for college.
 

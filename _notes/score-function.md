@@ -55,11 +55,11 @@ $$
 and notice that $$\Delta p_t(x) = \nabla \cdot (\nabla p_t(x))$$. Re-arranging the terms we get
 
 $$
-\begin{align*}
-0 &= \partial_t p_t(x) + \nabla \cdot \Big(b(x, t)p_t(x) - \frac{1}{2}\sigma^2\nabla p_t(x)\Big)\\
-&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\frac{\nabla p_t(x)}{p_t(x)}\Big)p_t(x)\\
-&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\nabla \log(p_t(x))\Big)p_t(x)
-\end{align*}
+\begin{align}
+0 &= \partial_t p_t(x) + \nabla \cdot \Big(b(x, t)p_t(x) - \frac{1}{2}\sigma^2\nabla p_t(x)\Big)\notag\\
+&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\frac{\nabla p_t(x)}{p_t(x)}\Big)p_t(x)\notag\\
+&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\nabla \log(p_t(x))\Big)p_t(x)\notag
+\end{align}
 $$
 
 which gives us a transport equation with velocity
