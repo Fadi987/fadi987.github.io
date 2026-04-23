@@ -32,6 +32,11 @@ ninja.data = [{
           description: "Deriving the transport equation for stochastic interpolants using Fourier transforms, and why the Eulerian-Lagrangian toggle fails in this setting.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/stochastic-interpolants/";
+            },},{id: "notes-the-score-function",
+          title: 'The Score Function',
+          description: "Why the score function is the key to toggling between deterministic and stochastic transports, reversing SDEs, and why Gaussianizing the data makes it easy to estimate.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/score-function/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
