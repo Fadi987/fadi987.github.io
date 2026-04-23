@@ -102,7 +102,7 @@ $$
 
 the good news is that the objective now, amazingly, doesn't involve $$s(x)$$ anymore. The bad news is that in practice computing the Jacobian $$\nabla_x s_\theta(x)$$ is very expensive. So we look for an alternative objective that avoids the trace term. The trick is to add Gaussian noise to the data: if we perturb $$x_0$$ by $$\gamma Z$$, the score of the noisy density takes a particularly clean form as a conditional expectation.
 
-More concretely, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. In other words, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. Then it turns out that $$s(x) = \nabla_x \log(p(x))$$ is much easier to estimate. The proof is given in Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions." The conclusion is that now we can express
+More concretely, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. Then it turns out that $$s(x) = \nabla_x \log(p(x))$$ is much easier to estimate. The proof is essentially given in Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions." The conclusion is that now we can express
 
 $$
 s_\theta(x) = -\gamma^{-1}\mathbb{E}[Z \mid x]
