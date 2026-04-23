@@ -55,11 +55,11 @@ $$
 and notice that $$\Delta p_t(x) = \nabla \cdot (\nabla p_t(x))$$. Re-arranging the terms we get
 
 $$
-\begin{align}
+\begin{align*}
 0 &= \partial_t p_t(x) + \nabla \cdot \Big(b(x, t)p_t(x) - \frac{1}{2}\sigma^2\nabla p_t(x)\Big)\\
 &= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\frac{\nabla p_t(x)}{p_t(x)}\Big)p_t(x)\\
 &= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\nabla \log(p_t(x))\Big)p_t(x)
-\end{align}
+\end{align*}
 $$
 
 which gives us a transport equation with velocity
@@ -102,7 +102,7 @@ $$
 
 the good news is that the objective now, amazingly, doesn't involve $$s(x)$$ anymore. The bad news is that in practice computing the Jacobian $$\nabla_x s_\theta(x)$$ is very expensive. So we look for an alternative objective that avoids the trace term. The trick is to add Gaussian noise to the data: if we perturb $$x_0$$ by $$\gamma Z$$, the score of the noisy density takes a particularly clean form as a conditional expectation.
 
-More concretely, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. Then it turns out that $$s(x) = \nabla_x \log(p(x))$$ is much easier to estimate. The proof is essentially given in Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions." The conclusion is that now we can express
+More concretely, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. Then it turns out that $$s(x) = \nabla_x \log(p(x))$$ is much easier to estimate. The proof is essentially given in Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions." (Theorem 8). The conclusion is that now we can expressS
 
 $$
 s_\theta(x) = -\gamma^{-1}\mathbb{E}[Z \mid x]
