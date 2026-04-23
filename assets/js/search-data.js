@@ -34,7 +34,7 @@ ninja.data = [{
               window.location.href = "/notes/stochastic-interpolants/";
             },},{id: "notes-the-score-function",
           title: 'The Score Function',
-          description: "Why the score function is the key to toggling between deterministic and stochastic transports, reversing SDEs, and why Gaussianizing the data makes it easy to estimate.",
+          description: "The score function as a toggle between ODE and SDE transports, and why Gaussianization simplifies estimation.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/score-function/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
