@@ -1,0 +1,136 @@
+---
+layout: page
+title: The Score Function
+description: Why the score function is the key to toggling between deterministic and stochastic transports, reversing SDEs, and why Gaussianizing the data makes it easy to estimate.
+date: 2026-04-23
+math: true
+---
+
+Ok, so far, whether it's in our discussion of [Continuous Normalizing Flows]({{ '/notes/continuous-normalizing-flows/' | relative_url }}) or [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }}), we were operating in the setup of deterministic transport. More concretely, we have some $$x_0\sim\rho_0$$ and we'd like to transport the particle according to a _deterministic_ ODE $$\dot{x}_t = v(x_t, t)$$ so that $$x_1\sim \rho_1$$ (approximately) where $$\rho_1$$ is some target measure we'd like to sample from. We also found that deterministic transport is equivalent to the time-dependent marginal $$p_t$$ satisfying the Transport Equation
+
+$$
+\partial_t p_t(x) + \nabla \cdot (v(x, t)\cdot p_t(x)) = 0 \tag{1}
+$$
+
+However, deterministic transport is not the full story. We can also imagine having a stochastic transport. In this case, instead of the ODE, the particle motion is described by an SDE:
+
+$$
+dx_t = b(x_t, t)dt + \sigma dW_t
+$$
+
+where $$W_t$$ is the standard Brownian motion. So, again, we start with $$x_0\sim\rho_0$$ but this time, in addition to the deterministic drift $$b(x_t, t)dt$$, we add a noise term $$\sigma dW_t$$. And in this case, we can also think about the time dependent marginal $$p_t(x)$$, which turns out to satisfy what is called the Fokker-Planck equation
+
+$$
+\partial_t p_t(x) + \nabla\cdot(b(x, t) p_t(x)) = \frac{1}{2}\sigma^2\Delta p_t(x) \tag{2}
+$$
+
+where $$\Delta = \nabla \cdot \nabla$$. Proving this equation is beyond the scope of these notes, but at least let's try to understand it intuitively. Notice that this equation is very similar to the Transport equation except for the additional right-hand term. The Transport Equation tells us that the instantaneous change of density $$p_t(x)$$ in time at a specific $$(x, t)$$ is equal to the negative divergence of the density multiplied by the velocity field. If the divergence is positive, this intuitively means that in the vicinity of $$x$$, particles that are moving away from $$x$$ (if any), are moving away faster than particles that are moving closer to $$x$$, so then density at $$x$$ goes down. And the reverse is true for negative divergence which causes density to go up. This picture makes a lot of sense for deterministic flows. For an SDE, however, we have an additional diffusive term $$\sigma dW_t$$, which "wiggles" the particles. This causes the particles to diffuse from high to low concentration areas. Intuitively, if $$\Delta p_t(x) < 0$$, this means that $$p_t(x)$$ is higher than its neighborhood. In this case, the diffusive term will cause particles to diffuse away from $$x$$ regardless of what the velocity field $$b(x, t)$$ is doing, causing additional negative pressure on $$\partial_t p_t(x)$$. And the reverse is true if $$\Delta p_t(x) > 0$$.
+
+Now, we can derive a closely related equation from (2) by subtracting $$\sigma^2 \Delta p_t$$ from both sides. On the right, $$\frac{1}{2}\sigma^2 \Delta p_t - \sigma^2 \Delta p_t = -\frac{1}{2}\sigma^2 \Delta p_t$$, flipping the sign of the Laplacian. On the left, the subtracted term can be absorbed into the divergence: $$-\sigma^2 \Delta p_t = -\sigma^2 \nabla \cdot \nabla p_t = -\nabla \cdot (\sigma^2 \nabla \log p_t \cdot p_t)$$. Combining with the existing $$\nabla \cdot (b \, p_t)$$ gives a modified drift $$b - \sigma^2 \nabla \log p_t$$. The result is
+
+$$
+\partial_t p_t(x) + \nabla\cdot  \Big(\big(b(x, t) - \sigma^2 \nabla \log p_t(x)\big)\cdot p_t(x)\Big) = -\frac{1}{2}\sigma^2 \Delta p_t(x) \tag{3}
+$$
+
+So this isn't an independent PDE—it's equation (2) rewritten with a different drift. But does it have an equivalent Lagrangian view (i.e, view described by particles)? On the one hand, it's not a transport equation, so it's not exactly a deterministic flow. On the other hand, the "diffusive" term in (3) has a negative sign compared to (2), which at first seems to defy our intuition on how diffusion works. It suggests that diffusion occurs from low concentration areas to high concentration areas. This is in reverse of what we expect. In fact, it turns out this equation describes a reverse SDE! To see this, let's re-parametrize time $$\tau = 1-t$$, and define $$\bar{p}_\tau = p_t = p_{1-\tau}\implies \partial_\tau \bar{p}_\tau = -\partial_t p_t$$. Writing $$\tilde{b} = b - \sigma^2 \nabla \log p_t$$ for the modified drift in (3) and plugging in, we get
+
+$$
+\partial_\tau\bar{p}_\tau(x) + \nabla\cdot\Big((-\tilde{b}(x, 1-\tau))\cdot \bar{p}_\tau(x)\Big) =\frac{1}{2}\sigma^2 \Delta \bar{p}_\tau(x)
+$$
+
+so then equation (3) describes the time-dependent marginal of a particle moving in the opposite direction $$\tau=1-t$$ with a drift $$-\tilde{b}(x, 1-\tau) = -b(x, 1-\tau) + \sigma^2 \nabla \log p_{1-\tau}(x)$$!
+
+This is exactly the drift of the reverse-time SDE in Anderson's theorem. A caveat: what we've shown here is that the marginals of the reverse process can be generated by an SDE with this drift. Anderson's original result is stronger—it states that the genuine time-reversed process, as a stochastic process (i.e., in the sense of path distributions), satisfies this SDE. Proving the path-level statement requires additional tools from stochastic calculus, which are beyond the scope of these PDE-level manipulations. For the purposes of generative modeling, the marginal-level result is what matters, since we only care about the distribution of samples at each time, not the joint distribution across times.
+
+## The Unreasonable Effectiveness of the Score Function
+
+Ok, so why did we bother talking about the deterministic and forward/reverse stochastic transports? Because, as we'll see, if a family of time-dependent marginals $$\mathcal{P} = \{p_t(x), t\in [0, 1]\}$$, satisfies one of them, then it satisfies the other two! This is insane to think about. So let's pause for a moment. This means, that if I tell you that I have a deterministic flow generating $$p_t(x)$$, which satisfies the Transport Equation (1), $$p_t(x)$$ also satisfies the Fokker-Planck equation (2), and thus there's a different stochastic flow that generates the same marginals $$p_t(x)$$! The reverse also holds, if we have a stochastic flow then there's an equivalent deterministic flow. Finally, if we have a stochastic flow satisfying (2), the $$p_t(x)$$ also satisfies a backward Fokker-Planck equation (3) and thus there exists a reverse stochastic flow that generates $$p_t(x)$$ backwards! This insight has massive implications on generative modeling, and the reversibility of stochastic flows is the basis of diffusion generative modeling. Now surely, if two different flows, of different natures, describe the same marginals, their drift has to be different. But then the question becomes, if we have the drift of one formulation, how do we find the drift of another? The score function comes to the rescue.
+
+Let's start with the Fokker-Planck equation
+
+$$
+\partial_t p_t(x) + \nabla\cdot(b(x, t) p_t(x)) = \frac{1}{2}\sigma^2\Delta p_t(x) \tag{2}
+$$
+
+and notice that $$\Delta p_t(x) = \nabla \cdot (\nabla p_t(x))$$. Re-arranging the terms we get
+
+$$
+\begin{align}
+0 &= \partial_t p_t(x) + \nabla \cdot \Big(b(x, t)p_t(x) - \frac{1}{2}\sigma^2\nabla p_t(x)\Big)\\
+&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\frac{\nabla p_t(x)}{p_t(x)}\Big)p_t(x)\\
+&= \partial_tp_t(x) + \nabla\cdot \Big(b(x, t) - \frac{1}{2}\sigma^2\nabla \log(p_t(x))\Big)p_t(x)
+\end{align}
+$$
+
+which gives us a transport equation with velocity
+
+$$
+v(x, t) = b(x, t) - \frac{1}{2}\sigma^2\nabla \log(p_t(x))
+$$
+
+Using similar arguments, we can convince ourselves that we can also move between a backward Fokker-Planck and the Transport Equation. And thus, we can move between forward and backward Fokker-Planck equations. And notice that this is a two-way street, as the argument I made above is a chain of equivalences. And if one of them is satisfied, then all of the others are!
+
+Of course, as we move between formulations, we'd have to compute the new drift. And to compute the new drift, in every transition between any two formulations, the crucial quantity is what is called the score function:
+
+$$
+\boxed{s(x, t) := \nabla \log(p_t(x))} \tag{4}
+$$
+
+Intuitively, the score function points in the direction of steepest increase of the log-likelihood leading us to where the mass of the distribution is most concentrated. And notice how powerful the score function is. First, it allows us to reverse an SDE. Reversing an SDE is no trivial task. To reverse an ODE, as we saw in [Continuous Normalizing Flows]({{ '/notes/continuous-normalizing-flows/' | relative_url }}), we can simply integrate the ODE backward with negative the velocity field. And this is possible because paths don't cross. Every particle $$x_1$$ came to be from a unique trajectory $$x_t = X(x_0, t)$$ where $$x_0$$ is a unique initial condition. This is no longer the case for SDEs where the noise term $$\sigma dW_t$$ mixes things up, and loses information. We can't simply trace backwards. And it's remarkable that all we need is the score function!
+
+To summarize, the following are equivalent, in the sense that they all describe the same family of marginals $$\{p_t\}$$:
+
+1. **Transport equation** with velocity $$v(x, t)$$
+2. **Forward Fokker-Planck** with drift $$v + \frac{1}{2}\sigma^2 \nabla \log p_t$$ and diffusion $$\sigma$$, for any $$\sigma > 0$$
+3. **Backward Fokker-Planck** (equation 3) with drift $$v - \frac{1}{2}\sigma^2 \nabla \log p_t$$ and diffusion $$\sigma$$, corresponding to a reverse-time SDE
+
+The score function $$\nabla \log p_t$$ is the bridge between them.
+
+## Score Function Estimation
+
+Ok, in general, how do we estimate the score function $$s(x) = \nabla \log(p(x))$$ empirically? One way to do it is to define an objective along the lines of
+
+$$
+\mathcal{L}(\theta) = \mathbb{E}_{x}\Big[\frac{1}{2}\lVert s_\theta(x)  - s(x)\rVert^2\Big]
+$$
+
+but, unlike supervised learning tasks, we don't have access to $$s(x, t)$$ directly. Now, it's a well known result, as shown in (Estimation of Non-Normalized Statistical Models by Score Matching, Aapo Hyvarinen) that the above objective is equivalent to
+
+$$
+\mathcal{L}(\theta) = \mathbb{E}_x\Big[\frac{1}{2}\lVert s_\theta(x)\rVert^2 + \mathrm{tr}(\nabla_x s_\theta(x))\Big]
+$$
+
+the good news is that the objective now, amazingly, doesn't involve $$s(x)$$ anymore. The bad news is that in practice computing the Jacobian $$\nabla_x s_\theta(x)$$ is very expensive. So we look for an alternative objective that avoids the trace term. The trick is to add Gaussian noise to the data: if we perturb $$x_0$$ by $$\gamma Z$$, the score of the noisy density takes a particularly clean form as a conditional expectation.
+
+More concretely, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. In other words, let our original variable be $$x_0$$, let's add some noise and define $$x:= x_0 + \gamma Z$$ where $$Z\sim\mathcal{N}(0, 1)$$. Then it turns out that $$s(x) = \nabla_x \log(p(x))$$ is much easier to estimate. The proof is given in Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions." The conclusion is that now we can express
+
+$$
+s_\theta(x) = -\gamma^{-1}\mathbb{E}[Z \mid x]
+$$
+
+this result is remarkable. Not only because the score has a simple expression now, but because it's expressed as a conditional expectation! And we know how easy it is to estimate conditional expectations, they're simply $$L^2$$ minimizers. Thus, we can now estimate the score function using
+
+$$
+\mathcal{L}(\theta) = \mathbb{E}_{x_0, Z}\Big[\lVert s_\theta(x) + \gamma^{-1}Z\rVert^2\Big]
+$$
+
+One final note for completeness, it might seem at first glance that as $$\gamma\rightarrow 0$$, $$s(x)$$ will blow up. But actually, in that case $$\mathbb{E}[Z \mid x]\rightarrow 0$$ as well so that the ratio converges to the finite value of the noiseless score. To see why: as $$\gamma\rightarrow 0$$, the term $$\gamma Z$$ vanishes, so $$Z$$ has negligible influence on $$x$$. This means $$x$$ and $$Z$$ become approximately independent, and the conditional distribution $$Z \mid x$$ approaches the unconditional distribution $$\mathcal{N}(0, 1)$$, which has mean zero. Hence $$\mathbb{E}[Z \mid x] \rightarrow 0$$ at a rate that matches the $$\gamma^{-1}$$ blow-up, yielding a finite score in the limit.
+
+## Conclusion
+
+The punchline from this write-up is two-fold:
+
+1. The score function is the necessary and sufficient ingredient to
+    1. move between deterministic transports and stochastic transports, and
+    2. reverse stochastic transports
+2. To estimate the score function easily, we add Gaussian noise to the data
+
+We go back in full circle to [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }}). Recall that the Stochastic Interpolant is a continuous-time stochastic process $$I_t$$ that bridges two probability measures $$\rho_0, \rho_1$$ as
+
+$$
+I_t = I(x_0, x_1, t) + \gamma(t)Z
+$$
+
+In the writeup, we studied the case of $$\gamma(t) = 0$$, and we didn't state any motivation for $$\gamma(t)Z$$ in the first place. After all, even with $$\gamma(t) = 0$$, we proved that the time-dependent marginal satisfied the transport equation and thus we could come up with a normalizing flow generative model.
+
+However, if we want to generalize the framework to include stochastic transports, which it can, because we just showed if $$p_t$$ satisfies the transport equation (1) then it satisfies a family of Fokker-Planck equations! However, from the write-up we saw that what was easy to estimate was the velocity field of the deterministic flow $$v(x, t) = \mathbb{E}[\dot{I}_t \mid I_t = x]$$. And to get from the velocity field of the deterministic flow to the drift of a stochastic flow, we need access to the score function. And to estimate the score function we need to Gaussianize the data! This is why it was crucial to add the term $$\gamma(t)Z$$ if we ever wanted to generalize the Stochastic Interpolant framework beyond deterministic flows.
