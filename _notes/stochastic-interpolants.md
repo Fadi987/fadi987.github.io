@@ -6,6 +6,8 @@ date: 2026-04-17
 math: true
 ---
 
+These notes are based on Albergo, Boffi, and Vanden-Eijnden, "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions."
+
 The main idea behind Stochastic Interpolants is that you want to learn a transport, which could be deterministic or stochastic, between two probability densities $$\rho_0, \rho_1$$. The Stochastic Interpolant is simply a continuous-time stochastic process that bridges the two and is of the form:
 
 $$
