@@ -14,15 +14,15 @@ $$
 \mathcal{L}(\theta) = \mathbb{E}_{t, x\sim p_t(x)}\Big[\lVert v_\theta(t, x) - \mu_t(x)\rVert^2\Big] \tag{1}
 $$
 
-but of course, as it stands, this objective is intractable, not just because $$\mu_t(x)$$ is hard to evaluate, but more fundamentally because $$p_t(x)$$ isn't even specified. We have no path connecting $$p$$ to $$q$$ to begin with. The methodology will simultaneously specify the path and make the objective tractable.
+but of course, as it stands, this objective is intractable, not just because $$\mu_t(x)$$ is hard to evaluate, but more fundamentally because $$p_t(x)$$ isn't even specified. We have no path connecting $$p$$ to $$q$$ to begin with.
 
-To circumvent this issue, the main insight is to condition on a specific target particle $$x_1$$. Now that we've conditioned on $$x_1$$, we can think about specifying the much simpler conditional probability path $$p_t(x \mid x_1)$$ with the boundary conditions $$p_0(x \mid x_1) = p(x)$$ and $$p_1(x \mid x_1)$$ is the density of $$\mathcal{N}(x_1, \sigma_{\min})$$. By defining
+To circumvent this issue, the main insight is to condition on a specific target particle $$x_1$$. Now that we've conditioned on $$x_1$$, we can think about specifying the much simpler conditional probability path $$p_t(x \mid x_1)$$ with the boundary conditions $$p_0(x \mid x_1) = p(x)$$ and $$p_1(x \mid x_1)$$ is the density of $$\mathcal{N}(x_1, \sigma_{\min})$$. Next, by defining
 
 $$
 p_t(x):= \int p_t(x \mid x_1)q(x_1)dx_1
 $$
 
-and given a small enough $$\sigma_{\min}$$, we should expect that $$p_1(x) \sim q(x)$$. And of course we always have $$p_0(x) = p(x)$$, and thus $$p_t(x)$$ is a valid probability path between $$p(x)\rightarrow q(x)$$. Next, let's try to connect $$\mu_t(x \mid x_1)$$, the velocity vector field of the conditional probability flow, with $$\mu_t(x)$$. We'll do that by looking at the Transport Equation. We know that the conditional probability flow is a valid deterministic flow so it respects the Transport Equation and we have
+and given a small enough $$\sigma_{\min}$$, we should expect that $$p_1(x) \sim q(x)$$. And of course we always have $$p_0(x) = p(x)$$, and thus $$p_t(x)$$ is a valid probability path between $$p(x)\rightarrow q(x)$$. Next step is to connect $$\mu_t(x \mid x_1)$$, the velocity vector field of the conditional probability flow, with $$\mu_t(x)$$. We'll do that by looking at the Transport Equation. We know that the conditional probability flow is a valid deterministic flow so it respects the Transport Equation and we have
 
 $$
 \partial_t p_t(x \mid x_1) + \nabla \cdot (p_t(x \mid x_1)\cdot \mu_t(x \mid x_1)) = 0
@@ -56,9 +56,9 @@ $$
 \mathcal{L}^*(\theta) =\mathbb{E}_{t, q(x_1), x\sim p_t(x \mid x_1)}\Big[\lVert v_\theta(x, t) - \mu_t(x \mid x_1)\rVert^2\Big]
 $$
 
-This is a simple exercise. Take the gradient $$\nabla_\theta$$, expand the square, manipulate the integrals, and use the relations we already derived connecting conditional to unconditional quantities. To prove that $$\nabla_\theta \mathcal{L}^* = \nabla_\theta \mathcal{L}$$, and thus they only differ by a constant and have the same minimizer. We're then left with $$\mathcal{L}^*(\theta)$$ which is expressed solely in terms of conditional quantities $$p_t(x \mid x_1), \mu_t(x \mid x_1)$$ which are easy to compute.
+Proving that $$\nabla_\theta \mathcal{L}^* = \nabla_\theta \mathcal{L}$$ is a simple exercise. Take the gradient $$\nabla_\theta$$, manipulate the integrals, and use the relations we already derived connecting conditional to unconditional quantities. Thus the two objectives only differ by a constant and have the same minimizer. We're then left with $$\mathcal{L}^*(\theta)$$ which is expressed solely in terms of conditional quantities $$p_t(x \mid x_1), \mu_t(x \mid x_1)$$ which are easy to compute.
 
-The last step is to specify $$p_t(x \mid x_1)$$. The authors suggest a very simple choice. They designate $$p_t(x \mid x_1)$$ to be the push-forward measure of $$p(x_0)$$ through the following map
+The last step is to specify $$p_t(x \mid x_1)$$. The authors suggest a very simple choice. They designate $$p_t(x \mid x_1)$$ to be the push-forward measure of $$p(x)$$ through the following map
 
 $$
 \psi_{x_1}(t, x) = \mu(t, x_1) + \sigma(t, x_1)x
@@ -66,7 +66,7 @@ $$
 
 where the following boundary conditions should be respected $$\mu(0, x_1) = 0, \mu(1, x_1) = x_1$$ and $$\sigma(0, x_1) = 1, \sigma(1, x_1) = \sigma_{\min}$$. Note that $$\sigma(0) = 1$$ because at $$t=0$$ the conditional distribution is $$\mathcal{N}(\mu(0, x_1), \sigma(0, x_1)) = \mathcal{N}(0, 1)$$, which is the Gaussian source $$p(x)$$. Finally, $$x\sim\mathcal{N}(0, 1)$$. And such a map is defined per value of $$x_1$$.
 
-Given this very simple conditional deterministic transport of $$x_0$$, we can easily see that the conditional velocity field is nothing but the time derivative of $$\psi$$, so the objective turns to
+Given this very simple conditional deterministic transport of $$x_0$$, we can easily see that the velocity field is nothing but the time derivative of $$\psi$$, so the objective turns to
 
 $$
 \mathcal{L}^*(\theta) = \mathbb{E}_{t, x_1, x}\Big[\lVert v_\theta(\psi_{x_1}(t, x), t) - \partial_t \psi_{x_1}(t, x) \rVert^2\Big]
