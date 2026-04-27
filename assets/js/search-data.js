@@ -40,6 +40,11 @@ ninja.data = [{
           description: "The score function as a toggle between ODE and SDE transports, and why Gaussianization simplifies estimation.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/score-function/";
+            },},{id: "notes-unifying-flow-matching-and-stochastic-interpolants",
+          title: 'Unifying Flow Matching and Stochastic Interpolants',
+          description: "How conditioning on both endpoints extends Flow Matching beyond Gaussian sources and recovers the Stochastic Interpolants objective.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/unifying-flow-matching-and-stochastic-interpolants/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
