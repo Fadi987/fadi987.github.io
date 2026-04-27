@@ -14,7 +14,7 @@ $$
 \mathcal{L}(\theta) = \mathbb{E}_{t, x\sim p_t(x)}\Big[\lVert v_\theta(t, x) - \mu_t(x)\rVert^2\Big] \tag{1}
 $$
 
-but of course, as it stands, this objective is intractable—not just because $$\mu_t(x)$$ is hard to evaluate, but more fundamentally because $$p_t(x)$$ isn't even specified. We have no path connecting $$p$$ to $$q$$ to begin with. The methodology will simultaneously specify the path and make the objective tractable.
+but of course, as it stands, this objective is intractable, not just because $$\mu_t(x)$$ is hard to evaluate, but more fundamentally because $$p_t(x)$$ isn't even specified. We have no path connecting $$p$$ to $$q$$ to begin with. The methodology will simultaneously specify the path and make the objective tractable.
 
 To circumvent this issue, the main insight is to condition on a specific target particle $$x_1$$. Now that we've conditioned on $$x_1$$, we can think about specifying the much simpler conditional probability path $$p_t(x \mid x_1)$$ with the boundary conditions $$p_0(x \mid x_1) = p(x)$$ and $$p_1(x \mid x_1)$$ is the density of $$\mathcal{N}(x_1, \sigma_{\min})$$. By defining
 
@@ -131,4 +131,4 @@ which is nothing but the [Stochastic Interpolants]({{ '/notes/stochastic-interpo
 
 The Flow Matching methodology tries to decompose the original probability path $$p_t(x)$$ into a collection of conditional probability paths $$p_t(x \mid x_1)$$ which are tractable. Though by conditioning only on one endpoint $$x_1$$, we restrict ourselves to having the ability to bridge only Gaussian distributions. To bridge two arbitrary distributions, we condition further on the pair $$(x_0, x_1)$$. For every such pair, we then construct a deterministic transport which is nothing but the Stochastic Interpolant $$I_t$$ and the objective function turns out to be mathematically equivalent! In other words, the Stochastic Interpolant can be thought of as a conditional deterministic transport.
 
-One final note: throughout this write-up we sampled $$(x_0, x_1)$$ from the product coupling $$p(x_0)q(x_1)$$. But the full stochastic interpolants framework allows arbitrary couplings $$\rho(x_0, x_1)$$, including non-product couplings. So double conditioning doesn't just let us start from non-Gaussians—it also lets us impose arbitrary couplings between source and target.
+One final note: throughout this write-up we sampled $$(x_0, x_1)$$ from the product coupling $$p(x_0)q(x_1)$$. But the full stochastic interpolants framework allows arbitrary couplings $$\rho(x_0, x_1)$$, including non-product couplings. So double conditioning doesn't just let us start from non-Gaussians; it also lets us impose arbitrary couplings between source and target.
