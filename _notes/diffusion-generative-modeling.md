@@ -12,8 +12,7 @@ In this writeup, we'll be discussing generative modeling based on diffusion. Wha
 2. Connect it with [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }}), and
 3. Discuss how to estimate [The Score Function]({{ '/notes/score-function/' | relative_url }}), which is of central importance, leading me to
 4. Discuss [Tweedie's Formula](https://en.wikipedia.org/wiki/Maurice_Tweedie#Tweedie's_formula), and connect it back to a result in [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }})
-5. Comment on the simple but powerful [Law of the Unconscious Statistician](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician). Finally,
-6. Connect everything back to the good old denoising objective first introduced in diffusion
+5. Finally, connect everything back to the good old denoising objective first introduced in diffusion
 
 
 ## Preliminaries on Itô Calculus
@@ -50,9 +49,9 @@ $$
 \mathbb{E}\Big[\Big(\int_0^t G_sdW_s\Big)^2\Big] = \mathbb{E}\Big[\int_0^t G_s^2ds\Big] = \int_0^t\mathbb{E}[G_s^2]ds \tag{3}
 $$
 
-where we turned a wieldy Itô integral into a much more familiar Lebesgue integral! We'll use these properties later in our calculations.
+where we turned a unwieldy Itô integral into a much more familiar Lebesgue integral! We'll use these properties later in our calculations.
 
-Ok, one final ingredient is Itô's rule, which can be thought of as the chain rule for stochastic calculus. Let $$X_t$$ be an Itô process, and let $$u(X_t, t)$$ be a function with mild regularity conditions, then $$u_t := u(X_t, t)$$ is also an Itô process and Itô's rule gives us the drift and diffusion coefficients of $$u_t$$ by
+Ok, one final ingredient is the Itô rule, which can be thought of as the chain rule for stochastic calculus. Let $$X_t$$ be an Itô process, and let $$u(X_t, t)$$ be a function with mild regularity conditions, then $$u_t := u(X_t, t)$$ is also an Itô process and Itô's rule gives us the drift and diffusion coefficients of $$u_t$$ by
 
 $$
 du_t = \partial_t u(t, X_t)dt + \partial_x u(t, X_t)dX_t + \frac{1}{2}{\partial_{x, x}u(t, X_t)(dX_t)^2}
@@ -130,7 +129,7 @@ $$
 \end{align}
 $$
 
-And so as $$t\rightarrow\infty$$, the distribution of $$X_t$$ converges to $$\mathcal{N}(0, 1)$$. This is precisely why we chose $$\sigma = \sqrt{2}$$: it makes the stationary variance exactly $$1$$, so that the limiting distribution is a standard Gaussian $$\mathcal{N}(0, 1)$$. And for any $$t$$, the distribution is exactly
+And so as $$t\rightarrow\infty$$, the distribution of $$X_t$$ converges to $$\mathcal{N}(0, 1)$$. This is precisely why we chose our parameters with their exact values earlier. It cancels terms out rendering the stationary variance exactly $$1$$, so that the limiting distribution is a standard Gaussian $$\mathcal{N}(0, 1)$$. And for any $$t$$, the distribution is exactly
 
 $$
 X_t \overset{d}{=} X_0e^{-t} + \sqrt{1-e^{-2t}}Z, \ Z\sim\mathcal{N}(0, 1) \tag{6}
