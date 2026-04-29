@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The Score Function
+title: "One Gradient to Rule Them All: How the Score Bridges ODEs, SDEs, and Their Reversals"
 description: The score function as a toggle between ODE and SDE transports, and why Gaussianization simplifies estimation. 
 date: 2026-04-23
 math: true
