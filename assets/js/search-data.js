@@ -35,8 +35,8 @@ ninja.data = [{
           description: "Deriving the transport equation for stochastic interpolants using Fourier transforms, and why the Eulerian-Lagrangian toggle fails in this setting.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/stochastic-interpolants/";
-            },},{id: "notes-the-score-function",
-          title: 'The Score Function',
+            },},{id: "notes-one-gradient-to-rule-them-all-how-the-score-bridges-odes-sdes-and-their-reversals",
+          title: 'One Gradient to Rule Them All: How the Score Bridges ODEs, SDEs, and...',
           description: "The score function as a toggle between ODE and SDE transports, and why Gaussianization simplifies estimation.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/score-function/";
@@ -45,6 +45,11 @@ ninja.data = [{
           description: "How conditioning on both endpoints extends Flow Matching beyond Gaussian sources and recovers the Stochastic Interpolants objective.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/unifying-flow-matching-and-stochastic-interpolants/";
+            },},{id: "notes-itô-to-epsilon-sdes-interpolants-and-tweedie-along-the-way",
+          title: 'Itô to Epsilon: SDEs, Interpolants, and Tweedie Along the Way',
+          description: "Deriving the diffusion process via Itô calculus, connecting it to Stochastic Interpolants, proving Tweedie&#39;s formula for score estimation, and recovering the denoising objective.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/diffusion-generative-modeling/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
