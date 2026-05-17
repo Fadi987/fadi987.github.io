@@ -1,8 +1,8 @@
 ---
 layout: page
 title: Optimality Conditions in Finite and Infinite Dimensions
-description: Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to the calculus of variations.
-date: 2026-05-01
+description: Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to infinite-dimensional optimization.
+date: 2026-05-16
 tags: optimization optimal-control
 math: true
 ---
