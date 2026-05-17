@@ -52,7 +52,7 @@ ninja.data = [{
               window.location.href = "/notes/diffusion-generative-modeling/";
             },},{id: "notes-optimality-conditions-in-finite-and-infinite-dimensions",
           title: 'Optimality Conditions in Finite and Infinite Dimensions',
-          description: "Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to the calculus of variations.",
+          description: "Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to infinite-dimensional optimization.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/optimality-conditions-finite-infinite-dimensions/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
