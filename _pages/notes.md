@@ -10,14 +10,19 @@ nav_order: 1
 {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
 
 {% comment %} Collect all unique tags across notes {% endcomment %}
-{% assign all_tags = "" | split: "" %}
+{% assign tag_string = "" %}
 {% for note in sorted_notes %}
   {% for tag in note.tags %}
-    {% unless all_tags contains tag %}
-      {% assign all_tags = all_tags | push: tag %}
+    {% unless tag_string contains tag %}
+      {% if tag_string == "" %}
+        {% assign tag_string = tag %}
+      {% else %}
+        {% assign tag_string = tag_string | append: "," | append: tag %}
+      {% endif %}
     {% endunless %}
   {% endfor %}
 {% endfor %}
+{% assign all_tags = tag_string | split: "," %}
 
 {% if all_tags.size > 0 %}
 <div class="note-filters" style="margin-bottom: 2rem;">
