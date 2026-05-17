@@ -3,6 +3,7 @@ layout: page
 title: Unifying Flow Matching and Stochastic Interpolants
 description: How conditioning on both endpoints extends Flow Matching beyond Gaussian sources and recovers the Stochastic Interpolants objective.
 date: 2026-04-27
+tags: generative-modeling
 math: true
 ---
 

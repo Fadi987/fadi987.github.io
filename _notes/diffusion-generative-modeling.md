@@ -3,6 +3,7 @@ layout: page
 title: "Itô to Epsilon: SDEs, Interpolants, and Tweedie Along the Way"
 description: Deriving the diffusion process via Itô calculus, connecting it to Stochastic Interpolants, proving Tweedie's formula for score estimation, and recovering the denoising objective.
 date: 2026-04-29
+tags: generative-modeling
 math: true
 ---
 

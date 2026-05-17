@@ -3,6 +3,7 @@ layout: page
 title: Stochastic Interpolants
 description: Deriving the transport equation for stochastic interpolants using Fourier transforms, and why the Eulerian-Lagrangian toggle fails in this setting.
 date: 2026-04-17
+tags: generative-modeling
 math: true
 ---
 

@@ -3,6 +3,7 @@ layout: page
 title: Continuous Normalizing Flows
 description: Deriving the Lagrangian and Eulerian views of continuous normalizing flows and the adjoint method for efficient gradient computation.
 date: 2026-04-15
+tags: generative-modeling
 math: true
 ---
 

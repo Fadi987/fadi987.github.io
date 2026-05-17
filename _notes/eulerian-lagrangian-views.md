@@ -3,6 +3,7 @@ layout: page
 title: Eulerian & Lagrangian Views
 description: Toggling between Eulerian and Lagrangian formulations, and the conditions under which this is valid.
 date: 2026-04-16
+tags: generative-modeling
 math: true
 ---
 
