@@ -77,13 +77,19 @@ layout: default
       <h2><a href="{{ '/notes/' | relative_url }}" style="color: inherit">notes</a></h2>
       <p>Working notes where I elaborate on concepts I'm currently studying. When a proof or technique seems to come out of the blue, I try to reverse-engineer how one might have arrived at it, reconstructing the chain of reasoning from scratch.</p>
       {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
-      {% for note in sorted_notes %}
+      {% assign notes_limit = 5 %}
+      {% for note in sorted_notes limit: notes_limit %}
         <div style="margin-bottom: 0.75rem;">
           <a href="{{ note.url | relative_url }}">{{ note.title }}</a>
           <span class="post-meta"> — {{ note.date | date: '%B %d, %Y' }}</span>
           <br><span class="post-meta">{{ note.description }}</span>
         </div>
       {% endfor %}
+      {% if site.notes.size > notes_limit %}
+        <div style="margin-top: 0.5rem;">
+          <a href="{{ '/notes/' | relative_url }}" style="font-size: 0.9rem;">View all notes &rarr;</a>
+        </div>
+      {% endif %}
     {% endif %}
 
     <!-- Social -->
