@@ -50,6 +50,11 @@ ninja.data = [{
           description: "Deriving the diffusion process via Itô calculus, connecting it to Stochastic Interpolants, proving Tweedie&#39;s formula for score estimation, and recovering the denoising objective.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/diffusion-generative-modeling/";
+            },},{id: "notes-optimality-conditions-in-finite-and-infinite-dimensions",
+          title: 'Optimality Conditions in Finite and Infinite Dimensions',
+          description: "Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to the calculus of variations.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/optimality-conditions-finite-infinite-dimensions/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
