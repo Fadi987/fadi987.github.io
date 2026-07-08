@@ -1,11 +1,11 @@
 metadata:
-  last_updated: '2026-06-26'
+  last_updated: '2026-07-08'
 papers:
   teicZ5AAAAAJ:2osOgNQ5qMEC:
     citations: 9
     title: Transformers discover molecular structure without graph priors
     year: '2025'
   teicZ5AAAAAJ:u5HHmVD_uO8C:
-    citations: 201
+    citations: 202
     title: Heuristic recurrent algorithms for photonic Ising machines
     year: '2020'
