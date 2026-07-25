@@ -55,6 +55,11 @@ ninja.data = [{
           description: "Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to infinite-dimensional optimization.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/optimality-conditions-finite-infinite-dimensions/";
+            },},{id: "notes-how-much-of-an-approximation-is-ppo",
+          title: 'How much of an approximation is PPO?',
+          description: "Relating the discounted return to the unclipped PPO surrogate via state occupancy measures and the performance difference lemma, and clarifying which additional approximations hold in practice.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/ppo-and-policy-gradients/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
