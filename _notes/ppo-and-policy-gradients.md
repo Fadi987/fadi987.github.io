@@ -48,10 +48,10 @@ To see that, notice that
 $$
 \begin{align}
 J(\pi_\theta)  = \mathbb{E}_{\tau\sim p_{\pi_\theta}}\Big[R(\tau)\Big] &= \sum_{k=0}^\infty \gamma^k\mathbb{E}_{\tau\sim p_{\pi_\theta}}\Big[r(s_k, a_k)\Big]
-=  \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k, a_k}\Big[r(s_k, a_k)\Big]\\
-&= \sum_{k=0}^\infty \gamma^k \sum_{s\in\mathcal{S}, a\in\mathcal{A}}P_k^{\pi_\theta}(s)\pi_\theta(a\mid s)r(s, a)= \sum_{s\in\mathcal{S}, a\in\mathcal{A}}\Big(\sum_{k=0}^\infty \gamma^k P_k^{\pi_\theta}(s)\Big)\pi_\theta(a\mid s)r(s, a)\\
+=  \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k, a_k}\Big[r(s_k, a_k)\Big]\notag\\
+&= \sum_{k=0}^\infty \gamma^k \sum_{s\in\mathcal{S}, a\in\mathcal{A}}P_k^{\pi_\theta}(s)\pi_\theta(a\mid s)r(s, a)= \sum_{s\in\mathcal{S}, a\in\mathcal{A}}\Big(\sum_{k=0}^\infty \gamma^k P_k^{\pi_\theta}(s)\Big)\pi_\theta(a\mid s)r(s, a)\notag\\
 &= \frac{1}{1-\gamma} \sum_{s\in\mathcal{S}, a\in\mathcal{A}} \delta_{\pi_\theta}(s)\pi_\theta(a\mid s)r(s, a)
-= \frac{1}{1-\gamma} \mathbb{E}_{s\sim\delta_{\pi_\theta}, a\sim\pi_\theta}\Big[r(s, a)\Big]
+= \frac{1}{1-\gamma} \mathbb{E}_{s\sim\delta_{\pi_\theta}, a\sim\pi_\theta}\Big[r(s, a)\Big]\notag
 \end{align}
 $$
 
@@ -67,8 +67,8 @@ To prove it, notice that
 
 $$
 \begin{align}
-\frac{1}{1-\gamma}\mathbb{E}_{s\sim\delta_{\pi_\theta}, a\sim\pi_\theta}\Big[A^\mu(s, a)\Big] &= \sum_{s\in\mathcal{S}, a\in\mathcal{A}}\Big(\sum_{k=0}^\infty \gamma^k P_k^{\pi_\theta}(s)\Big)\pi_\theta(a\mid s)A^\mu(s, a) = \sum_{k=0}^\infty \gamma^k\sum_{s\in\mathcal{S}, a\in\mathcal{A}}P_k^{\pi_\theta}(s)\pi_\theta(a\mid s)A^\mu(s, a)\\
-&= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k \sim P_k^{\pi_\theta}, a_k\sim\pi_\theta(\cdot\mid s_k)}\Big[A^\mu(s_k, a_k)\Big]
+\frac{1}{1-\gamma}\mathbb{E}_{s\sim\delta_{\pi_\theta}, a\sim\pi_\theta}\Big[A^\mu(s, a)\Big] &= \sum_{s\in\mathcal{S}, a\in\mathcal{A}}\Big(\sum_{k=0}^\infty \gamma^k P_k^{\pi_\theta}(s)\Big)\pi_\theta(a\mid s)A^\mu(s, a) = \sum_{k=0}^\infty \gamma^k\sum_{s\in\mathcal{S}, a\in\mathcal{A}}P_k^{\pi_\theta}(s)\pi_\theta(a\mid s)A^\mu(s, a)\notag\\
+&= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k \sim P_k^{\pi_\theta}, a_k\sim\pi_\theta(\cdot\mid s_k)}\Big[A^\mu(s_k, a_k)\Big]\notag
 \end{align}
 $$
 
@@ -94,8 +94,8 @@ as desired. The Performance Difference Lemma is important because it brings us o
 
 $$
 \begin{align}
-\frac{1}{1-\gamma}\mathbb{E}_{s\sim\delta_\mu, a\sim\pi_\theta}\Big[A^\mu(s, a)\Big] &= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k \sim P_k^\mu, a_k\sim\pi_\theta(\cdot\mid s_k)}\Big[A^\mu(s_k, a_k)\Big]\\
-&= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k\sim P_k^\mu, a_k \sim\mu(\cdot\mid s_k)}\Big[\frac{\pi_\theta(a_k\mid s_k)}{\mu(a_k\mid s_k)}A^\mu(s_k, a_k)\Big]
+\frac{1}{1-\gamma}\mathbb{E}_{s\sim\delta_\mu, a\sim\pi_\theta}\Big[A^\mu(s, a)\Big] &= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k \sim P_k^\mu, a_k\sim\pi_\theta(\cdot\mid s_k)}\Big[A^\mu(s_k, a_k)\Big]\notag\\
+&= \sum_{k=0}^\infty \gamma^k \mathbb{E}_{s_k\sim P_k^\mu, a_k \sim\mu(\cdot\mid s_k)}\Big[\frac{\pi_\theta(a_k\mid s_k)}{\mu(a_k\mid s_k)}A^\mu(s_k, a_k)\Big]\notag
 \end{align}
 $$
 
