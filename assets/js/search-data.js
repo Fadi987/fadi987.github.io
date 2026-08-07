@@ -55,6 +55,11 @@ ninja.data = [{
           description: "Deriving necessary and sufficient conditions for local optima, from unconstrained and constrained finite-dimensional problems to infinite-dimensional optimization.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/optimality-conditions-finite-infinite-dimensions/";
+            },},{id: "notes-vector-time-flows",
+          title: 'Vector-Time Flows',
+          description: "Generalizing stochastic interpolants to per-coordinate time schedules, and recovering in-painting as a special case.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/vector-time-flows/";
             },},{id: "notes-how-much-of-an-approximation-is-ppo",
           title: 'How much of an approximation is PPO?',
           description: "Relating the discounted return to the unclipped PPO surrogate via state occupancy measures and the performance difference lemma, and clarifying which additional approximations hold in practice.",
