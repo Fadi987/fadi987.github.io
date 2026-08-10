@@ -101,16 +101,7 @@ $$
 
 Here the per-state importance ratio $$r_\theta(s,a)=\pi_\theta(a\mid s)/\mu(a\mid s)$$ is exact conditional on $$s$$ ; the only approximation is the frozen state occupancy $$\delta_{\pi_\theta}\approx\delta_\mu$$. And this matches the unclipped PPO objective exactly! Also note that the outer $$\gamma^k$$ is required for the discounted start-state objective $$J$$; in PPO we usually don't have it and instead do uniform sampling over timesteps, but let's disregard this for now. In PPO, when we take multiple gradient steps per rollout sample, we have our fixed rollout / behavior policy $$\mu$$ that generated the rollout, then we have our current optimized policy $$\pi_\theta$$. And we do the sampling (e.g., the expectation) with respect to the rollout so it's indeed with respect to the behavior policy $$s_k\sim P_k^\mu, a_k\sim\mu(\cdot\mid s_k)$$.
 
-## Takeaways
-
-1. For idealized **unclipped** PPO with exact advantages and exact expectations, the defining approximation relative to the original objective $$J(\pi_\theta)$$ is the replacement $$\delta_{\pi_\theta}\rightarrow\delta_\mu$$. The action-level importance weighting is exact conditional on $$s$$.
-2. At $$\pi_\theta=\mu$$, the true discounted-return objective and the unclipped surrogate have identical gradients. The clipped PPO objective also has that same initial gradient because the ratio starts at $$1$$, which is within the clipping interval. So if we collect fresh rollouts and take exactly one full-batch gradient-ascent step (fully on-policy), then under those idealized assumptions the PPO update equals the ordinary on-policy policy-gradient update.
-3. Multiple optimizer steps on the same rollout batch are approximate because $$\pi_\theta\neq\mu$$ after the first update; clipping is an additional deliberate modification. Separately, practice also involves estimated advantages / GAE, finite-sample error, and often uniform timestep weighting.
-4. If we strictly want to follow $$J(\pi_\theta)$$, then we have to weight time $$k$$ by $$\gamma^k$$; in reality, we take uniform weights (just a simple mean).
-
-## Why the gradients match at $$\pi_\theta = \mu$$
-
-Point 2 above may not be immediately clear because even though in that case $$\pi_\theta = \mu$$, we are indeed comparing derivatives. And it's not readily obvious that they're equal. So let's quickly show it.
+Now, a key claim is that at $$\pi_\theta = \mu$$, this surrogate and the true objective $$J(\theta)$$ have identical gradients (and clipped PPO does too, since the ratio starts at $$1$$ and sits inside the clipping interval). This may not be immediately clear because even though $$\pi_\theta = \mu$$, we are indeed comparing derivatives, and it's not readily obvious that they're equal. So let's quickly show it.
 
 In the treatment below, I'll assume that $$\pi_\theta = \mu$$ but keep their notations separate to emphasize dependence on $$\theta$$ which is important for differentiation. I'll denote the approximate objective used in PPO by $$J_P(\theta)$$. We have on the one hand
 
@@ -135,3 +126,10 @@ J(\theta) &= J(\mu) + \mathbb{E}_{s\sim \delta_{\pi_\theta}, a\sim\pi_\theta(\cd
 $$
 
 where in the last equation we substituted $$\pi_\theta = \mu$$ after taking the derivative. And the second term is $$0$$ because if we separate the expectation over the joint $$(s, a)$$ into $$s$$ then $$a\mid s$$, pull the term that's only a function of $$s$$ outside the inner expectation, and then notice that, for any state $$s$$, $$\mathbb{E}_{a\sim\mu(\cdot\mid s)}[A^\mu(s, a)] = 0$$ by definition. And we're done.
+
+## Takeaways
+
+1. For idealized **unclipped** PPO with exact advantages and exact expectations, the defining approximation relative to the original objective $$J(\pi_\theta)$$ is the replacement $$\delta_{\pi_\theta}\rightarrow\delta_\mu$$. The action-level importance weighting is exact conditional on $$s$$.
+2. At $$\pi_\theta=\mu$$, the true discounted-return objective and the unclipped surrogate have identical gradients. The clipped PPO objective also has that same initial gradient because the ratio starts at $$1$$, which is within the clipping interval. So if we collect fresh rollouts and take exactly one full-batch gradient-ascent step (fully on-policy), then under those idealized assumptions the PPO update equals the ordinary on-policy policy-gradient update.
+3. Multiple optimizer steps on the same rollout batch are approximate because $$\pi_\theta\neq\mu$$ after the first update; clipping is an additional deliberate modification. Separately, practice also involves estimated advantages / GAE, finite-sample error, and often uniform timestep weighting.
+4. If we strictly want to follow $$J(\pi_\theta)$$, then we have to weight time $$k$$ by $$\gamma^k$$; in reality, we take uniform weights (just a simple mean).
