@@ -104,6 +104,34 @@ Here the per-state importance ratio $$r_\theta(s,a)=\pi_\theta(a\mid s)/\mu(a\mi
 ## Takeaways
 
 1. For idealized **unclipped** PPO with exact advantages and exact expectations, the defining approximation relative to the original objective $$J(\pi_\theta)$$ is the replacement $$\delta_{\pi_\theta}\rightarrow\delta_\mu$$. The action-level importance weighting is exact conditional on $$s$$.
-2. At $$\pi_\theta=\mu$$, the true discounted-return objective and the unclipped surrogate have identical gradients. The clipped PPO objective also has that same initial gradient because the ratio starts at $$1$$, which is within the clipping interval. So if we collect fresh rollouts and take exactly one full-batch gradient-ascent step (fully on-policy), then under those idealized assumptions the PPO update equals the ordinary on-policy policy-gradient update. 
+2. At $$\pi_\theta=\mu$$, the true discounted-return objective and the unclipped surrogate have identical gradients. The clipped PPO objective also has that same initial gradient because the ratio starts at $$1$$, which is within the clipping interval. So if we collect fresh rollouts and take exactly one full-batch gradient-ascent step (fully on-policy), then under those idealized assumptions the PPO update equals the ordinary on-policy policy-gradient update.
 3. Multiple optimizer steps on the same rollout batch are approximate because $$\pi_\theta\neq\mu$$ after the first update; clipping is an additional deliberate modification. Separately, practice also involves estimated advantages / GAE, finite-sample error, and often uniform timestep weighting.
 4. If we strictly want to follow $$J(\pi_\theta)$$, then we have to weight time $$k$$ by $$\gamma^k$$; in reality, we take uniform weights (just a simple mean).
+
+## Why the gradients match at $$\pi_\theta = \mu$$
+
+Point 2 above may not be immediately clear because even though in that case $$\pi_\theta = \mu$$, we are indeed comparing derivatives. And it's not readily obvious that they're equal. So let's quickly show it.
+
+In the treatment below, I'll assume that $$\pi_\theta = \mu$$ but keep their notations separate to emphasize dependence on $$\theta$$ which is important for differentiation. I'll denote the approximate objective used in PPO by $$J_P(\theta)$$. We have on the one hand
+
+$$
+\begin{align}
+J_P(\theta) &= \mathbb{E}_{s\sim \delta_\mu, a \sim\pi_\theta(\cdot\mid s)}\big[A^\mu(s, a)\big] = \mathbb{E}_{s\sim\delta_\mu, a\sim \mu(\cdot\mid s)}\Big[\frac{\pi_\theta(a\mid s)}{\mu(a\mid s)}A^\mu(s, a)\Big] \implies \notag\\
+&\boxed{\nabla_\theta J_P(\theta)
+= \mathbb{E}_{s\sim\delta_\mu, a\sim\mu(\cdot\mid s)}\Big[\frac{\nabla_\theta \pi_\theta (a\mid s)}{\mu(a\mid s)}A^\mu(s, a)\Big]} \tag{2}
+\end{align}
+$$
+
+On the other hand, we have
+
+$$
+\begin{align}
+J(\theta) &= J(\mu) + \mathbb{E}_{s\sim \delta_{\pi_\theta}, a\sim\pi_\theta(\cdot\mid s)}\big[A^\mu(s, a)\big]\notag\\
+\implies \nabla_\theta J(\theta)  &=\underbrace{\mathbb{E}_{s\sim \delta_{\pi_\theta}, a\sim\pi_\theta(\cdot\mid s)}\Big[\nabla_\theta \log(\delta_\theta(s)\pi_\theta(a\mid s))A^\mu(s, a)\Big]}_{\text{log trick}} \notag\\
+&= \mathbb{E}_{s\sim \delta_{\pi_\theta}, a\sim\pi_\theta(\cdot\mid s)}\Big[\frac{\nabla_\theta(\delta_\theta(s)\pi_\theta(a\mid s))}{\delta_\theta(s)\pi_\theta(a\mid s)}A^\mu(s, a)\Big]\notag\\
+&= \underbrace{\mathbb{E}_{s\sim \delta_{\pi_\theta}, a\sim\pi_\theta(\cdot\mid s)}\Big[\frac{\nabla_\theta \delta_\theta(s) \pi_\theta(a\mid s) + \delta_\theta(s)\nabla_\theta(\pi_\theta(a\mid s))}{\delta_\theta(s)\pi_\theta(a\mid s)}A^\mu(s, a)\Big]}_{\text{product rule}}\notag\\
+&= \underbrace{\mathbb{E}_{s\sim \delta_\mu, a\sim\mu(\cdot\mid s)}\Big[\frac{\nabla_\theta \pi_\theta(a\mid s)}{\mu(a\mid s)}A^\mu(s, a)\Big]}_{\nabla_\theta J_P(\theta)} + \underbrace{\mathbb{E}_{s\sim \delta_\mu, a\sim \mu(\cdot\mid s)}\Big[\frac{\nabla_\theta \delta_\theta(s)}{\delta_\theta(s)}A^\mu(s, a)\Big]}_{0}\notag
+\end{align}
+$$
+
+where in the last equation we substituted $$\pi_\theta = \mu$$ after taking the derivative. And the second term is $$0$$ because if we separate the expectation over the joint $$(s, a)$$ into $$s$$ then $$a\mid s$$, pull the term that's only a function of $$s$$ outside the inner expectation, and then notice that, for any state $$s$$, $$\mathbb{E}_{a\sim\mu(\cdot\mid s)}[A^\mu(s, a)] = 0$$ by definition. And we're done.
