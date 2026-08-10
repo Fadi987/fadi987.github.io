@@ -7,7 +7,7 @@ tags: generative-modeling
 math: true
 ---
 
-The [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }}) framework can be generalized to per-coordinate time schedules as follows. Suppose that your data lives in $$x\in\mathbb{R}^d$$. Given Gaussian noise $$z\sim \mathcal{N}(0, \sigma^2 I)\in\mathbb{R}^d$$ and a simple linear Interpolant
+The idea in these notes comes from [Multitask Learning with Stochastic Interpolants](https://arxiv.org/abs/2508.04605) (Negrel, Coeurdoux, Albergo, Vanden-Eijnden). The [Stochastic Interpolants]({{ '/notes/stochastic-interpolants/' | relative_url }}) framework can be generalized to per-coordinate time schedules as follows. Suppose that your data lives in $$x\in\mathbb{R}^d$$. Given Gaussian noise $$z\sim \mathcal{N}(0, \sigma^2 I)\in\mathbb{R}^d$$ and a simple linear Interpolant
 
 $$
 I_t := tx + (1-t)z,\ x\sim \mathcal{D},\ z\sim \mathcal{N}(0, \sigma^2 I),\ t\in[0, 1]
