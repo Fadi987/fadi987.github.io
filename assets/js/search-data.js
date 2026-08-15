@@ -70,6 +70,11 @@ ninja.data = [{
           description: "Tracing the arc from vanilla BC through DAgger and AggreVaTe to approximate policy iteration.",
           section: "Notes",handler: () => {
               window.location.href = "/notes/from-behavior-cloning-to-rl/";
+            },},{id: "notes-on-the-contractivity-of-stochastic-interpolation-flow",
+          title: 'On the Contractivity of Stochastic Interpolation Flow',
+          description: "How strong log-concavity of the target controls the Lipschitz constant of the interpolant ODE flow map.",
+          section: "Notes",handler: () => {
+              window.location.href = "/notes/contractivity-of-stochastic-interpolation-flow/";
             },},{id: "teachings-introduction-to-statistical-data-analysis-6-401",
           title: 'Introduction to Statistical Data Analysis (6.401)',
           description: "Teaching assistant for MIT&#39;s Introduction to Statistical Data Analysis course with Professor Yury Polyanskiy. Designed a final project drawing from master&#39;s thesis, held office hours, and wrote problem sets. Received outstanding student ratings averaging 6.8 out of 7.",
